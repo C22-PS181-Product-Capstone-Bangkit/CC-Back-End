@@ -1,0 +1,34 @@
+{
+  "name": "cc-back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app",
+  "scripts": {
+    "start": "node src/app",
+    "dev": "nodemon src/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C22-PS181-Product-Capstone-Bangkit/CC-Back-End.git"
+  },
+  "author": "C22-PS181",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/C22-PS181-Product-Capstone-Bangkit/CC-Back-End/issues"
+  },
+  "homepage": "https://github.com/C22-PS181-Product-Capstone-Bangkit/CC-Back-End#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "nodemailer": "^6.7.5",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.20.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
