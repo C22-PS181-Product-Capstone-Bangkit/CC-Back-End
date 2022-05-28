@@ -1,5 +1,6 @@
 const { nanoid } = require("nanoid");
 const db = require("../models");
+const { Op } = require("sequelize");
 const Restaurant = db.Restaurant;
 const Review = db.Review;
 const Food = db.Food;
@@ -21,10 +22,10 @@ const RestaurantService = () => {
   };
 
   const getRestaurantByCategory = async (category) => {
-    const restaurant = await Restaurant.findAll();
-
-    //nanti cari data difetch semua terus baru sorting nya di sini aja
-    if (!restaurant) {
+    const restaurant = await Restaurant.findAll({ where : {category : {
+      [Op.like] : `%${category}%`
+    }}});
+    if (restaurant.length === 0) {
       return 0;
     }
     return restaurant;

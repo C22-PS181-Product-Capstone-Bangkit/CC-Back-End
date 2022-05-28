@@ -20,7 +20,16 @@ module.exports = {
       res.status(500).send(error);
     }
   },
-  getRestaurantCategory: async (req, res) => {},
+  getRestaurantCategory: async (req, res) => {
+    try {
+      const { category } = req.params;
+      const result = await RestaurantService().getRestaurantByCategory(category);
+      if (!result) res.status(500).send({ message: "Tidak ada data restoran pada pencarian kategori" });
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  },
   editRestaurant: async (req, res) => {
     try {
       const { id } = req.params;
