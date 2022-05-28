@@ -62,36 +62,48 @@ module.exports = {
   registerByGoogle: async (req, res) => {},
 
   login: async (req, res) => {
-    const { email, password } = req.body;
-    const user = await UserService().authenticate(email, password);
-    if (!user) {
-      return res.status(400).json({ message: "Email atau Kata sandi salah" });
-    }
-    const token = jwt.sign(
-      {
-        id: user.id,
-        idFriend: user.idFriend,
-        name: user.name,
-        email: user.email,
-        profilePic: user.profilePic,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: expired,
+    try {
+      const { email, password } = req.body;
+      const user = await UserService().authenticate(email, password);
+      if (!user) {
+        return res.status(400).json({ message: "Email atau Kata sandi salah" });
       }
-    );
-    return res.status(200).json({ access_token: token });
+      const token = jwt.sign(
+        {
+          id: user.id,
+          idFriend: user.idFriend,
+          name: user.name,
+          email: user.email,
+          profilePic: user.profilePic,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: expired,
+        }
+      );
+      return res.status(200).json({ access_token: token });
+    } catch (error) {
+      res.status(500).send(error);
+    }
   },
 
   profile: async (req, res) => {
-    const { user } = req;
-    const review = await ReviewService().getReviewByUserId(user.id);
-    return res.status(200).json({user, review});
+    try {
+      const { user } = req;
+      const review = await ReviewService().getReviewByUserId(user.id);
+      res.status(200).json({ user, review });
+    } catch (error) {
+      res.status(500).send(error);
+    }
   },
 
   authToken: async (req, res) => {
-    const { user } = req;
-    return res.status(200).json(user);
+    try {
+      const { user } = req;
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).send(error);
+    }
   },
 
   uploadPic: (req, res) => {
@@ -100,18 +112,20 @@ module.exports = {
   },
 
   resetPassword: async (req, res) => {
-    const { user } = req;
-    const { password } = req.body;
-    const result = await UserService().resetPassword(user.id, password);
-    result === 0
-      ? res.status(500).send({ message: "Terjadi kesalahan sistem" })
-      : result === 1
-      ? res.status(200).send({ message: "Password Berhasil diganti" })
-      : res
-          .status(400)
-          .send({
+    try {
+      const { user } = req;
+      const { password } = req.body;
+      const result = await UserService().resetPassword(user.id, password);
+      result === 0
+        ? res.status(500).send({ message: "Terjadi kesalahan sistem" })
+        : result === 1
+        ? res.status(200).send({ message: "Password Berhasil diganti" })
+        : res.status(400).send({
             message:
               "Password Masih Sama Seperti Sebelumnya. Tidak ada perubahan",
           });
+    } catch (error) {
+      res.status(500).send(error);
+    }
   },
 };

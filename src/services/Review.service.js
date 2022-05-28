@@ -11,6 +11,9 @@ const ReviewService = () => {
     rating
   ) => {
     const review = await getReview();
+    if (!subject || !rating) {
+      return 0;
+    }
     if (review) {
       const isReview = await Review.findOne({
         where: { idAccount, idRestaurant },

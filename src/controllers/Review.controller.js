@@ -3,15 +3,23 @@ const ReviewService = require("../services/Review.service");
 
 module.exports = {
   getReviewAll: async (req, res) => {
-    const result = await ReviewService().getReview();
-    if (!result) res.status(500).send("Tidak ada data review");
-    res.status(200).send(result);
+    try {
+      const result = await ReviewService().getReview();
+      if (!result) res.status(500).send("Tidak ada data review");
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(500).send(error);
+    }
   },
   getReviewDetail: async (req, res) => {
-    const { id } = req.params;
-    const result = await ReviewService().getReviewById(id);
-    if (!result) res.status(500).send("Data review tidak ditemukan");
-    res.status(200).send(result);
+    try {
+      const { id } = req.params;
+      const result = await ReviewService().getReviewById(id);
+      if (!result) res.status(500).send("Data review tidak ditemukan");
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(500).send(error);
+    }
   },
   editReview: async (req, res) => {
     try {
@@ -65,6 +73,11 @@ module.exports = {
         description,
         rating
       );
+      if (result === 0) {
+        res.status(400).send({
+          message: "Harap isi subject dan rating",
+        });
+      }
       if (result === 1) {
         res.status(400).send({
           message: "Resto sudah direview",
