@@ -2,13 +2,13 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Review extends Model {
+  class History extends Model {
     static associate(models) {
-      Review.belongsTo(models.Restaurant, {foreignKey: 'idRestaurant'});
-      Review.belongsTo(models.User, {foreignKey: 'idAccount'});
+      History.belongsTo(models.Restaurant, { foreignKey: "idRestaurant" });
+      History.belongsTo(models.User, { foreignKey: "idAccount" });
     }
   }
-  Review.init(
+  History.init(
     {
       id: {
         type: DataTypes.STRING,
@@ -23,15 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      subject: {
+      title: {
         type: DataTypes.STRING,
-        allowNull: false,
-      },
-      description: DataTypes.STRING,
-      // photo: DataTypes.STRING,
-      rating: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -44,10 +37,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Review",
-      tableName: "Review",
+      modelName: "History",
+      tableName: "History",
       timestamps: true,
     }
   );
-  return Review;
+  return History;
 };

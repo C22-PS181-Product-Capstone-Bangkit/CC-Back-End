@@ -1,6 +1,5 @@
 const ReviewService = require("../services/Review.service");
 const RestaurantService = require("../services/Restaurant.service");
-// const { sendEmail } = require("../libraries/Email");
 
 module.exports = {
   getReviewAll: async (req, res) => {

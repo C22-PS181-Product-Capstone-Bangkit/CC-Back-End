@@ -3,5 +3,7 @@ router.use("/", require("./User.routes"));
 router.use("/review", require("./Review.routes"));
 router.use("/restaurant", require("./Restaurant.routes"));
 router.use("/food", require("./Food.routes"));
+router.use("/favorite", require("./Likes.routes"));
+router.use("/history", require("./History.routes"));
 
 module.exports = router;
