@@ -63,12 +63,21 @@ const ReviewService = () => {
     return review;
   };
 
+  const getReviewByUserId = async (idAccount) => {
+    const review = await Review.findAll({ where: { idAccount } });
+    if(!review) {
+      return [];
+    }
+    return review;
+  }
+
   return {
     addReview,
     updateReviewById,
     deleteReviewById,
     getReview,
     getReviewById,
+    getReviewByUserId
   };
 };
 

@@ -2,13 +2,12 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Restaurant extends Model {
+  class Food extends Model {
     static associate(models) {
-      Restaurant.hasMany(models.Review, {foreignKey: 'idRestaurant'});
-      Restaurant.hasMany(models.Food, {foreignKey: 'idRestaurant'});
+      Food.belongsTo(models.Restaurant, {foreignKey: 'idRestaurant'});
     }
   }
-  Restaurant.init(
+  Food.init(
     {
       id: {
         type: DataTypes.STRING,
@@ -19,22 +18,24 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      category: {
+      title: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      photoPlaces: DataTypes.STRING,
-      location: DataTypes.STRING,
-      rating: DataTypes.FLOAT,
-      openHour: DataTypes.STRING,
-      contact: DataTypes.STRING,
+      photo: {
+        type: DataTypes.STRING,
+      },
+      price: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
     },
     {
       sequelize,
-      modelName: "Restaurant",
-      tableName: "Restaurant",
+      modelName: "Food",
+      tableName: "Food",
       timestamps: false
     }
   );
-  return Restaurant;
+  return Food;
 };

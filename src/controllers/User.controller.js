@@ -1,4 +1,5 @@
 const UserService = require("../services/User.service");
+const ReviewService = require("../services/Review.service");
 // const { sendEmail } = require("../libraries/Email");
 const jwt = require("jsonwebtoken");
 
@@ -82,7 +83,13 @@ module.exports = {
     return res.status(200).json({ access_token: token });
   },
 
-  profile: (req, res) => {
+  profile: async (req, res) => {
+    const { user } = req;
+    const review = await ReviewService().getReviewByUserId(user.id);
+    return res.status(200).json({user, review});
+  },
+
+  authToken: async (req, res) => {
     const { user } = req;
     return res.status(200).json(user);
   },
