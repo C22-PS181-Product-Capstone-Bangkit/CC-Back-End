@@ -28,7 +28,7 @@ const HistoryService = () => {
 
   const getHistory = async () => {
     const history = await History.findAll();
-    if (!history) {
+    if (history.length === 0) {
       return 0;
     }
     return history;

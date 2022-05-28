@@ -54,7 +54,7 @@ module.exports = {
         });
       if (result === 1) {
         res.status(200).send({
-          message: "History berhasil diperbarui",
+          message: "History berhasil dihapus",
         });
       }
     } catch (error) {

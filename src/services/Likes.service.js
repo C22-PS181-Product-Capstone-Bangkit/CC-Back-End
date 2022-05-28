@@ -15,7 +15,7 @@ const LikesService = () => {
       if (isLikes) return 1;
     }
     const result = await Likes.create({
-      id: `Likes-${nanoid(17)}`,
+      id: `likes-${nanoid(17)}`,
       idRestaurant: idRestaurant,
       idAccount: idAccount,
       status: status,
@@ -35,7 +35,7 @@ const LikesService = () => {
 
   const getLikes = async () => {
     const likes = await Likes.findAll();
-    if (!likes) {
+    if (likes.length === 0) {
       return 0;
     }
     return likes;

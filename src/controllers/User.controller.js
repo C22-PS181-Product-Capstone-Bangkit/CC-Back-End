@@ -1,5 +1,7 @@
 const UserService = require("../services/User.service");
 const ReviewService = require("../services/Review.service");
+const LikesService = require("../services/Likes.service");
+const HistoryService = require("../services/History.service");
 // const { sendEmail } = require("../libraries/Email");
 const jwt = require("jsonwebtoken");
 
@@ -90,8 +92,10 @@ module.exports = {
   profile: async (req, res) => {
     try {
       const { user } = req;
+      const history = await HistoryService().getHistoryByUserId(user.id);
+      const likes = await LikesService().getLikesByUserId(user.id);
       const review = await ReviewService().getReviewByUserId(user.id);
-      res.status(200).json({ user, review });
+      res.status(200).json({ user, review, history, likes });
     } catch (error) {
       res.status(500).send(error);
     }

@@ -50,7 +50,7 @@ module.exports = {
         });
       if (result === 1) {
         res.status(200).send({
-          message: "Favorit berhasil diperbarui",
+          message: "Favorit berhasil dihapus",
         });
       }
     } catch (error) {
