@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
       },
-      name: {
+      idRestaurant: {
         allowNull: false,
         type: DataTypes.STRING,
       },

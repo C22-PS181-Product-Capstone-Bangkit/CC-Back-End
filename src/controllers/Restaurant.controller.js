@@ -64,7 +64,7 @@ module.exports = {
         });
       if (result === 1)
         res.status(200).send({
-          message: "Restoran berhasil diperbarui",
+          message: "Restoran berhasil dihapus",
         });
     } catch (error) {
       res.status(500).send(error);
