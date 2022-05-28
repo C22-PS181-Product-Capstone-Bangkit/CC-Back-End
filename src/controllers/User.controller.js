@@ -55,7 +55,7 @@ module.exports = {
         });
       }
     } catch (error) {
-      res.status(500).send("Terjadi kesalahan sistem " + error);
+      res.status(500).send({ message: "Terjadi kesalahan sistem " + error });
     }
   },
   registerByGoogle: async (req, res) => {},
@@ -97,11 +97,14 @@ module.exports = {
     const { password } = req.body;
     const result = await UserService().resetPassword(user.id, password);
     result === 0
-      ? res.status(500).send("Terjadi kesalahan sistem")
+      ? res.status(500).send({ message: "Terjadi kesalahan sistem" })
       : result === 1
-      ? res.status(200).send("Password Berhasil diganti")
+      ? res.status(200).send({ message: "Password Berhasil diganti" })
       : res
           .status(400)
-          .send("Password Masih Sama Seperti Sebelumnya. Tidak ada perubahan");
-  }
+          .send({
+            message:
+              "Password Masih Sama Seperti Sebelumnya. Tidak ada perubahan",
+          });
+  },
 };
