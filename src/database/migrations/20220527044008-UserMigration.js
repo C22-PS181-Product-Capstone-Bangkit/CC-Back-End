@@ -30,6 +30,7 @@ module.exports = {
       },
       name: Sequelize.STRING,
       profilePic: Sequelize.TEXT,
+      phone: Sequelize.STRING,
     });
   },
 

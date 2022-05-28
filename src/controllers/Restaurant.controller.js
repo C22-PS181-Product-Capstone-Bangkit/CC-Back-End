@@ -21,7 +21,51 @@ module.exports = {
     }
   },
   getRestaurantCategory: async (req, res) => {},
-  editRestaurant: async (req, res) => {},
-  deleteRestaurant: async (req, res) => {},
-  postRestaurant: async (req, res) => {},
+  editRestaurant: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, category, location, openHour, contact } = req.body;
+      const result = await RestaurantService().updateRestaurantById(
+        id,
+        name,
+        category,
+        location,
+        openHour,
+        contact
+      );
+      if (result === 0)
+        res.status(400).send({
+          message: "Restoran tidak ditemukan. Restoran gagal diperbarui",
+        });
+      if (result === 1)
+        res.status(200).send({
+          message: "Restoran berhasil diperbarui",
+        });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  },
+  deleteRestaurant: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result = await RestaurantService().deleteRestaurantById(id);
+      if (result === 0)
+        res.status(400).send({
+          message: "Restoran tidak ditemukan. Restoran gagal dihapus",
+        });
+      if (result === 1)
+        res.status(200).send({
+          message: "Restoran berhasil diperbarui",
+        });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  },
+  postRestaurant: async (req, res) => {
+    try {
+
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  },
 };

@@ -17,7 +17,7 @@ const UserService = () => {
       return 0;
     }
     const isRegistrate = await User.findOne({ where: { email } });
-    if(isRegistrate) {
+    if (isRegistrate) {
       return 1;
     }
     const result = await User.create({
@@ -31,7 +31,15 @@ const UserService = () => {
     return result.dataValues;
   };
 
-  const deleteUserById = async ({ id }) => {
+  const updateUserById = async (id, name, phone) => {
+    const result = await User.update(
+      { name, phone },
+      { where: { id } }
+    );
+    return result[0];
+  };
+
+  const deleteUserById = async (id) => {
     const user = await User.findByPk(id);
     if (user) {
       User.destroy({
@@ -62,6 +70,7 @@ const UserService = () => {
   return {
     authenticate,
     deleteUserById,
+    updateUserById,
     register,
     resetPassword,
   };

@@ -66,7 +66,7 @@ module.exports = {
     try {
       const { user } = req;
       const { subject, idRestaurant, description, rating } = req.body;
-      const result = await ReviewService().addReview(
+      const result = await ReviewService().createReview(
         user.id,
         idRestaurant,
         subject,

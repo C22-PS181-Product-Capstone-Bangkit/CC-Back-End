@@ -97,6 +97,24 @@ module.exports = {
     }
   },
 
+  editProfile: async (req, res) => {
+    try {
+      const { user } = req;
+      const { name, phone } = req.body;
+      const result = await UserService().updateUserById(user.id, name, phone);
+      if (result === 0)
+      res.status(400).send({
+        message: "Data User tidak ditemukan. Gagal diperbarui",
+      });
+    if (result === 1)
+      res.status(200).send({
+        message: "Data User berhasil diperbarui",
+      });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  },
+
   authToken: async (req, res) => {
     try {
       const { user } = req;

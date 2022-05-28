@@ -3,7 +3,7 @@ const db = require("../models");
 const Review = db.Review;
 
 const ReviewService = () => {
-  const addReview = async (
+  const createReview = async (
     idAccount,
     idRestaurant,
     subject,
@@ -75,7 +75,7 @@ const ReviewService = () => {
   }
 
   return {
-    addReview,
+    createReview,
     updateReviewById,
     deleteReviewById,
     getReview,
