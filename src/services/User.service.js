@@ -9,7 +9,7 @@ const UserService = () => {
     if (!user) return 0;
     const getPassword = user.getDataValue("password");
     const isMatch = bcrypt.compareSync(password, getPassword);
-    return isMatch ? user.dataValues : 0;
+    return isMatch ? user : 0;
   };
 
   const register = async (email, name, password) => {
@@ -27,8 +27,9 @@ const UserService = () => {
       email: email,
       password: bcrypt.hashSync(password, 8),
       profilePic: null,
+      phone : null
     });
-    return result.dataValues;
+    return result;
   };
 
   const updateUserById = async (id, name, phone) => {

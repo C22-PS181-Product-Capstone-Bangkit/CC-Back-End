@@ -45,6 +45,19 @@ const RestaurantService = () => {
     return result[0];
   };
 
+  const updateRating = async (id) => {
+    const result = await Review.findAll({
+      where: { idRestaurant: id },
+      attributes : ['rating'],
+      raw : true
+    });
+    let rate = 0;
+    for(let i=0; i < result.length; i++) {
+      rate += result[i].rating;
+    }
+    await Restaurant.update({ rating: rate / result.length }, { where: { id } });
+  };
+
   const deleteRestaurantById = async (id) => {
     //TODO: setelah sudah terbentuk data-data history, likes, review, dan food
     // const err1 = await Review.destroy({ where: { idRestaurant: id } });
@@ -53,28 +66,34 @@ const RestaurantService = () => {
     return result;
   };
 
-  const createRestaurant = async () => {
-    if (!email || !name || !password) {
+  const createRestaurant = async (name, category) => {
+    const restaurant = await getRestaurant();
+    if (!name || !category) {
       return 0;
     }
-    const isRegistrate = await Restaurant.findOne({ where: { name } });
-    if (isRegistrate) {
-      return 1;
+    if (restaurant) {
+      const isRegistrate = await Restaurant.findOne({
+        where: { name },
+      });
+      if (isRegistrate) return 1;
     }
-    const result = await Review.create({
-      id: `review-${nanoid(10)}`,
-      idRestaurant: idRestaurant,
-      idAccount: idAccount,
-      subject: subject,
-      description: description,
-      rating: rating,
+    const result = await Restaurant.create({
+      id: `resto-${nanoid(20)}`,
+      name: name,
+      category: category,
+      photoPlaces: null,
+      rating: 0.0,
+      openHour: null,
+      contact: null,
     });
     return result;
   };
+
   return {
     getRestaurant,
     getRestaurantById,
     getRestaurantByCategory,
+    updateRating,
     updateRestaurantById,
     deleteRestaurantById,
     createRestaurant,

@@ -1,11 +1,12 @@
 const ReviewService = require("../services/Review.service");
+const RestaurantService = require("../services/Restaurant.service");
 // const { sendEmail } = require("../libraries/Email");
 
 module.exports = {
   getReviewAll: async (req, res) => {
     try {
       const result = await ReviewService().getReview();
-      if (!result) res.status(500).send("Tidak ada data review");
+      if (!result) res.status(500).send({ message: "Tidak ada data review" });
       res.status(200).send(result);
     } catch (error) {
       res.status(500).send(error);
@@ -15,7 +16,8 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await ReviewService().getReviewById(id);
-      if (!result) res.status(500).send("Data review tidak ditemukan");
+      if (!result)
+        res.status(500).send({ message: "Data review tidak ditemukan" });
       res.status(200).send(result);
     } catch (error) {
       res.status(500).send(error);
@@ -37,10 +39,13 @@ module.exports = {
         res.status(400).send({
           message: "Review tidak ditemukan. Review gagal diperbarui",
         });
-      if (result === 1)
+      if (result === 1) {
+        const resto = await ReviewService().getReviewById(id);
+        RestaurantService().updateRating(resto.dataValues.idRestaurant);
         res.status(200).send({
           message: "Review berhasil diperbarui",
         });
+      }
     } catch (error) {
       res.status(500).send(error);
     }
@@ -49,15 +54,17 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await ReviewService().deleteReviewById(id);
-      console.log(result);
       if (result === 0)
         res.status(400).send({
           message: "Review tidak ditemukan. Review gagal dihapus",
         });
-      if (result === 1)
+      if (result === 1) {
+        const resto = await ReviewService().getReviewById(id);
+        RestaurantService().updateRating(resto.dataValues.idRestaurant);
         res.status(200).send({
           message: "Review berhasil diperbarui",
         });
+      }
     } catch (error) {
       res.status(500).send(error);
     }
@@ -83,6 +90,7 @@ module.exports = {
           message: "Resto sudah direview",
         });
       }
+      RestaurantService().updateRating(idRestaurant);
       res.status(200).send(result);
     } catch (error) {
       res.status(500).send(error);

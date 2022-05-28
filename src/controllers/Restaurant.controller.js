@@ -4,7 +4,7 @@ module.exports = {
   getRestaurant: async (req, res) => {
     try {
       const result = await RestaurantService().getRestaurant();
-      if (!result) res.status(500).send("Tidak ada data restoran");
+      if (!result) res.status(500).send({ message: "Tidak ada data restoran" });
       res.status(200).send(result);
     } catch (error) {
       res.status(500).send(error);
@@ -14,7 +14,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await RestaurantService().getRestaurantById(id);
-      if (!result) res.status(500).send("Tidak ada data restoran");
+      if (!result) res.status(500).send({ message: "Tidak ada data restoran" });
       res.status(200).send(result);
     } catch (error) {
       res.status(500).send(error);
@@ -63,7 +63,17 @@ module.exports = {
   },
   postRestaurant: async (req, res) => {
     try {
-
+      const { name, category } = req.body;
+      const result = await RestaurantService().createRestaurant(name, category);
+      if (result === 0) {
+        res.status(400).send({
+          message: "Harap isi nama dan kategori",
+        });
+      }
+      if (result === 1) {
+        res.status(400).send("Restoran telah diisi nama yang sama");
+      }
+      res.status(200).send(result);
     } catch (error) {
       res.status(500).send(error);
     }
