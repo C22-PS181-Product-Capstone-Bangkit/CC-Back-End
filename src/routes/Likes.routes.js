@@ -1,5 +1,5 @@
 const express = require('express');
-const likesController = require('../controllers/likes.controller');
+const likesController = require('../controllers/Likes.controller');
 const validateToken = require('../libraries/Auth')
 const router = express.Router();
 
