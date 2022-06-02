@@ -163,8 +163,8 @@ module.exports = {
   editProfile: async (req, res) => {
     try {
       const { user } = req;
-      const { name } = req.body;
-      const result = await UserService().updateUserById(user.id, name);
+      const { name, phone } = req.body;
+      const result = await UserService().updateUserById(user.id, name, phone);
       if (result === 0)
         return res.status(400).send({
           message: "Data User tidak ditemukan. Gagal diperbarui",
