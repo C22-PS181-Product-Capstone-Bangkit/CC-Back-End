@@ -12,6 +12,11 @@ const UserService = () => {
     return isMatch ? user : 0;
   };
 
+  const getUserById = async (id) => {
+    const user = await User.findOne({ where: { id } });
+    return user;
+  }
+
   const register = async (email, name, password) => {
     if (!email || !name || !password) {
       return 0;
@@ -71,6 +76,7 @@ const UserService = () => {
   return {
     authenticate,
     deleteUserById,
+    getUserById,
     updateUserById,
     register,
     resetPassword,

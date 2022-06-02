@@ -2,6 +2,7 @@ const UserService = require("../services/User.service");
 const ReviewService = require("../services/Review.service");
 const LikesService = require("../services/Likes.service");
 const HistoryService = require("../services/History.service");
+const RestaurantService = require("../services/Restaurant.service");
 // const { sendEmail } = require("../libraries/Email");
 const jwt = require("jsonwebtoken");
 
@@ -48,7 +49,7 @@ module.exports = {
             expiresIn: expired,
           }
         );
-        res.status(200).send({
+        return res.status(200).send({
           id: user.id,
           idFriend: user.idFriend,
           email: user.email,
@@ -58,7 +59,9 @@ module.exports = {
         });
       }
     } catch (error) {
-      res.status(500).send({ message: "Terjadi kesalahan sistem " + error });
+      return res
+        .status(500)
+        .send({ message: "Terjadi kesalahan sistem " + error });
     }
   },
   registerByGoogle: async (req, res) => {},
@@ -85,46 +88,102 @@ module.exports = {
       );
       return res.status(200).json({ access_token: token });
     } catch (error) {
-      res.status(500).send(error);
+      return res.status(500).send(error);
     }
   },
 
   profile: async (req, res) => {
     try {
       const { user } = req;
-      const history = await HistoryService().getHistoryByUserId(user.id);
+      const userData = await UserService().getUserById(user.id);
+      if (!userData) {
+        return res.status(400).send({ message: "Data User tidak ditemukan" });
+      }
+      let history = [];
+      history = await HistoryService().getHistoryByUserId(user.id);
+      if (history.length > 0) {
+        let restaurant = [];
+        for (let i = 0; i < history.length; i++) {
+          let data = await RestaurantService().getRestaurantById(
+            history[i].idRestaurant
+          );
+          restaurant.push(data);
+        }
+        history = history.map((data, index) => {
+          return {
+            name: restaurant[index].name,
+            rating: restaurant[index].rating,
+            photoPlaces: restaurant[index].photoPlaces,
+            title: data.title,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          };
+        });
+      }
       const likes = await LikesService().getLikesByUserId(user.id);
-      const review = await ReviewService().getReviewByUserId(user.id);
-      res.status(200).json({ user, review, history, likes });
+      let review = [];
+      review = await ReviewService().getReviewByUserId(user.id);
+      if (review.length > 0) {
+        let restaurant = [];
+        for (let i = 0; i < review.length; i++) {
+          let data = await RestaurantService().getRestaurantById(
+            review[i].idRestaurant
+          );
+          restaurant.push(data);
+        }
+        review = review.map((data, index) => {
+          return {
+            name: restaurant[index].name,
+            subject: data.subject,
+            description: data.description,
+            rating: data.rating,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+          };
+        });
+      }
+      return res
+        .status(200)
+        .json({
+          id: userData.id,
+          idFriend: userData.idFriend,
+          name: userData.name,
+          email: userData.email,
+          profilePic: userData.profilePic,
+          phone: userData.phone,
+          review,
+          history,
+          likes,
+        });
     } catch (error) {
-      res.status(500).send(error);
+      return res.status(500).send(error);
     }
   },
 
   editProfile: async (req, res) => {
     try {
       const { user } = req;
-      const { name, phone } = req.body;
-      const result = await UserService().updateUserById(user.id, name, phone);
+      const { name } = req.body;
+      const result = await UserService().updateUserById(user.id, name);
       if (result === 0)
-      res.status(400).send({
-        message: "Data User tidak ditemukan. Gagal diperbarui",
-      });
-    if (result === 1)
-      res.status(200).send({
-        message: "Data User berhasil diperbarui",
-      });
+        return res.status(400).send({
+          message: "Data User tidak ditemukan. Gagal diperbarui",
+        });
+      if (result === 1)
+        return res.status(200).send({
+          message: "Data User berhasil diperbarui",
+        });
     } catch (error) {
-      res.status(500).send(error);
+      return res.status(500).send(error);
     }
   },
 
   authToken: async (req, res) => {
     try {
       const { user } = req;
-      res.status(200).json(user);
+      return res.status(200).json(user);
     } catch (error) {
-      res.status(500).send(error);
+      return res.status(500).send(error);
     }
   },
 
@@ -138,7 +197,7 @@ module.exports = {
       const { user } = req;
       const { password } = req.body;
       const result = await UserService().resetPassword(user.id, password);
-      result === 0
+      return result === 0
         ? res.status(500).send({ message: "Terjadi kesalahan sistem" })
         : result === 1
         ? res.status(200).send({ message: "Password Berhasil diganti" })
@@ -147,7 +206,7 @@ module.exports = {
               "Password Masih Sama Seperti Sebelumnya. Tidak ada perubahan",
           });
     } catch (error) {
-      res.status(500).send(error);
+      return res.status(500).send(error);
     }
   },
 };

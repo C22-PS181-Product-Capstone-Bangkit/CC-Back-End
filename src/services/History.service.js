@@ -43,7 +43,7 @@ const HistoryService = () => {
   };
 
   const getHistoryByUserId = async (idAccount) => {
-    const history = await History.findAll({ where: { idAccount } });
+    const history = await History.findAll({ where: { idAccount }, raw : true });
     if (!history) {
       return [];
     }
