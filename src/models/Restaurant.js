@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
   class Restaurant extends Model {
     static associate(models) {
       Restaurant.hasMany(models.Review, {foreignKey: 'idRestaurant'});
-      Restaurant.hasMany(models.Food, {foreignKey: 'idRestaurant'});
     }
   }
   Restaurant.init(

@@ -3,7 +3,6 @@ const db = require("../models");
 const { Op } = require("sequelize");
 const Restaurant = db.Restaurant;
 const Review = db.Review;
-const Food = db.Food;
 
 const RestaurantService = () => {
   const getRestaurant = async () => {
@@ -60,7 +59,7 @@ const RestaurantService = () => {
   };
 
   const deleteRestaurantById = async (id) => {
-    //TODO: setelah sudah terbentuk data-data history, likes, review, dan food
+    //TODO: setelah sudah terbentuk data-data history, likes, review
     // const err1 = await Review.destroy({ where: { idRestaurant: id } });
     // const err2 = await Food.destroy({ where: { id } });
     const result = await Restaurant.destroy({ where: { id } });
