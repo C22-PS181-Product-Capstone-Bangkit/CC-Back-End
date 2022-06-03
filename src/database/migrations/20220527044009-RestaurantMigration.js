@@ -25,6 +25,9 @@ module.exports = {
       photoPlaces: {
         type: Sequelize.STRING,
       },
+      profilePic: {
+        type: Sequelize.STRING,
+      },
       location: {
         type: Sequelize.STRING,
       },
@@ -32,6 +35,9 @@ module.exports = {
         type: Sequelize.FLOAT,
       },
       openHour: {
+        type: Sequelize.STRING,
+      },
+      price: {
         type: Sequelize.STRING,
       },
       contact: {

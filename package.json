@@ -8,6 +8,7 @@
     "dev": "nodemon src/app",
     "db:create": "sequelize db:create",
     "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed:all",
     "db:migrate:undo:all": "sequelize db:migrate:undo:all",
     "db:init": "sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
     "restartdb": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all"
