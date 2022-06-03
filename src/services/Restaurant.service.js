@@ -6,14 +6,14 @@ const Review = db.Review;
 
 const RestaurantService = () => {
   const getRestaurant = async () => {
-    const restaurant = await Restaurant.findAll();
+    const restaurant = await Restaurant.findAll({ raw: true });
     if (!restaurant) {
       return 0;
     }
     return restaurant;
   };
   const getRestaurantById = async (id) => {
-    const restaurant = await Restaurant.findOne({ where: { id } });
+    const restaurant = await Restaurant.findOne({ where: { id }, raw: true });
     if (!restaurant) {
       return 0;
     }
@@ -21,9 +21,14 @@ const RestaurantService = () => {
   };
 
   const getRestaurantByCategory = async (category) => {
-    const restaurant = await Restaurant.findAll({ where : {category : {
-      [Op.like] : `%${category}%`
-    }}});
+    const restaurant = await Restaurant.findAll({
+      where: {
+        category: {
+          [Op.like]: `%${category}%`,
+        },
+      },
+      raw: true,
+    });
     if (restaurant.length === 0) {
       return 0;
     }
@@ -48,14 +53,17 @@ const RestaurantService = () => {
   const updateRating = async (id) => {
     const result = await Review.findAll({
       where: { idRestaurant: id },
-      attributes : ['rating'],
-      raw : true
+      attributes: ["rating"],
+      raw: true,
     });
     let rate = 0;
-    for(let i=0; i < result.length; i++) {
+    for (let i = 0; i < result.length; i++) {
       rate += result[i].rating;
     }
-    await Restaurant.update({ rating: rate / result.length }, { where: { id } });
+    await Restaurant.update(
+      { rating: rate / result.length },
+      { where: { id } }
+    );
   };
 
   const deleteRestaurantById = async (id) => {

@@ -66,13 +66,22 @@ const ReviewService = () => {
     return review;
   };
 
+  const getCountReviewByRestaurantId = async (idRestaurant) => {
+    const review = await Review.count({ where: { idRestaurant } });
+    console.log(review)
+    if(!review) {
+      return 0;
+    }
+    return review;
+  };
+
   const getReviewByUserId = async (idAccount) => {
     const review = await Review.findAll({ where: { idAccount } });
     if(!review) {
       return [];
     }
     return review;
-  }
+  };
 
   return {
     createReview,
@@ -80,6 +89,7 @@ const ReviewService = () => {
     deleteReviewById,
     getReview,
     getReviewById,
+    getCountReviewByRestaurantId,
     getReviewByUserId
   };
 };

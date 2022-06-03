@@ -1,9 +1,18 @@
 const RestaurantService = require("../services/Restaurant.service");
+const ReviewService = require("../services/Review.service");
 
 module.exports = {
   getRestaurant: async (req, res) => {
     try {
-      const result = await RestaurantService().getRestaurant();
+      let result = await RestaurantService().getRestaurant();
+      if(result.length > 0) {
+        for (let i = 0; i < result.length; i++) {
+          let data = await ReviewService().getCountReviewByRestaurantId(
+            result[i].id
+          );
+          result[i]["countReview"] = data;
+        }
+      }
       if (!result) return res.status(500).send({ message: "Tidak ada data restoran" });
       return res.status(200).send(result);
     } catch (error) {
@@ -13,8 +22,12 @@ module.exports = {
   getRestaurantDetail: async (req, res) => {
     try {
       const { id } = req.params;
-      const result = await RestaurantService().getRestaurantById(id);
+      let result = await RestaurantService().getRestaurantById(id);
       if (!result) return res.status(500).send({ message: "Tidak ada data restoran" });
+      let data = await ReviewService().getCountReviewByRestaurantId(
+        result.id
+      );
+      result["countReview"] = data;
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);
@@ -23,8 +36,16 @@ module.exports = {
   getRestaurantCategory: async (req, res) => {
     try {
       const { category } = req.params;
-      const result = await RestaurantService().getRestaurantByCategory(category);
+      let result = await RestaurantService().getRestaurantByCategory(category);
       if (!result) return res.status(500).send({ message: "Tidak ada data restoran pada pencarian kategori" });
+      if(result.length > 0) {
+        for (let i = 0; i < result.length; i++) {
+          let data = await ReviewService().getCountReviewByRestaurantId(
+            result[i].id
+          );
+          result[i]["countReview"] = data;
+        }
+      }
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);
