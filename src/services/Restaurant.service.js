@@ -50,21 +50,21 @@ const RestaurantService = () => {
     return result[0];
   };
 
-  const updateRating = async (id) => {
-    const result = await Review.findAll({
-      where: { idRestaurant: id },
-      attributes: ["rating"],
-      raw: true,
-    });
-    let rate = 0;
-    for (let i = 0; i < result.length; i++) {
-      rate += result[i].rating;
-    }
-    await Restaurant.update(
-      { rating: rate / result.length },
-      { where: { id } }
-    );
-  };
+  // const updateRating = async (id) => {
+  //   const result = await Review.findAll({
+  //     where: { idRestaurant: id },
+  //     attributes: ["rating"],
+  //     raw: true,
+  //   });
+  //   let rate = 0;
+  //   for (let i = 0; i < result.length; i++) {
+  //     rate += result[i].rating;
+  //   }
+  //   await Restaurant.update(
+  //     { rating: rate / result.length },
+  //     { where: { id } }
+  //   );
+  // };
 
   const deleteRestaurantById = async (id) => {
     //TODO: setelah sudah terbentuk data-data history, likes, review
@@ -101,7 +101,7 @@ const RestaurantService = () => {
     getRestaurant,
     getRestaurantById,
     getRestaurantByCategory,
-    updateRating,
+    // updateRating,
     updateRestaurantById,
     deleteRestaurantById,
     createRestaurant,
