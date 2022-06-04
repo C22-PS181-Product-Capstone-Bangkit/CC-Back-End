@@ -15,7 +15,7 @@ module.exports = {
       {
         id: "resto-1",
         name: "Atmosphere Resort Cafe, Bandung",
-        category: "Western, Asian",
+        category: "Indonesian, Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/atmosphere1.png",
         profilePic:
@@ -29,7 +29,7 @@ module.exports = {
       {
         id: "resto-2",
         name: "Braga Permai Resto, Bandung",
-        category: "Indonesian, Asian, Western",
+        category: "Indonesian, Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/braga1.png",
         profilePic:
@@ -43,7 +43,7 @@ module.exports = {
       {
         id: "resto-3",
         name: "Cafe Halaman, Bandung",
-        category: "Indonesian, Asian, Western",
+        category: "Indonesian, Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/cafe-halaman1.png",
         profilePic:
@@ -58,7 +58,7 @@ module.exports = {
       {
         id: "resto-4",
         name: "Dusun Bambu, Bandung",
-        category: "Sundanese, Indonesian",
+        category: "Indonesian",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/dusun-bambu1.png",
         profilePic:
@@ -88,7 +88,7 @@ module.exports = {
       {
         id: "resto-6",
         name: "Hummingbird Eatery, Bandung",
-        category: "Indonesian, Western, Italian, American, Bakery",
+        category: "Indonesian, Western, Bakery and Cake",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/hummingbird1.png",
         profilePic:
@@ -102,7 +102,7 @@ module.exports = {
       {
         id: "resto-7",
         name: "Kampung Daun, Bandung",
-        category: "Indonesian, Sundanese",
+        category: "Indonesian",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/kampung-daun1.png",
         profilePic:
@@ -116,7 +116,7 @@ module.exports = {
       {
         id: "resto-8",
         name: "Karnivor, Bandung",
-        category: "Western, Grill",
+        category: "Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/karnivor1.png",
         profilePic:
@@ -144,7 +144,7 @@ module.exports = {
       {
         id: "resto-10",
         name: "Miss Bee Providore, Bandung  ",
-        category: "Asian, Western",
+        category: "Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/miss-bee1.png",
         profilePic:
@@ -158,7 +158,7 @@ module.exports = {
       {
         id: "resto-11",
         name: "Raja Rasa, Bandung ",
-        category: "Sundanese, Seafood, Chinese",
+        category: "Seafood, Chinese",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/raja-rasa1.png",
         profilePic:
@@ -172,7 +172,7 @@ module.exports = {
       {
         id: "resto-12",
         name: "Sushi Tei, Bandung",
-        category: "Japanese, Sushi",
+        category: "Japanese, Seafood",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/sushi-tei1.png",
         profilePic:
@@ -187,7 +187,7 @@ module.exports = {
       {
         id: "resto-13",
         name: "The Peak, Bandung ",
-        category: "Western, Grill",
+        category: "Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/peak1.png",
         profilePic:
@@ -202,7 +202,7 @@ module.exports = {
       {
         id: "resto-14",
         name: "The Stone Cafe, Bandung ",
-        category: "Western, Asian, Indonesian",
+        category: "Indonesian, Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/stone-cafe1.png",
         profilePic:
@@ -216,7 +216,7 @@ module.exports = {
       {
         id: "resto-15",
         name: "The Valley, Bandung",
-        category: "Western, Asian",
+        category: "Indonesian, Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/valley1.png",
         profilePic:
@@ -231,7 +231,7 @@ module.exports = {
       {
         id: "resto-16",
         name: "Tizi's, Bandung",
-        category: "Western, Asian",
+        category: "Indonesian, Western",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/tizi1.png",
         profilePic:
@@ -245,7 +245,7 @@ module.exports = {
       {
         id: "resto-17",
         name: "Two Hands Full, Bandung ",
-        category: "Coffee, Cafe",
+        category: "Coffee",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/two-hands1.png",
         profilePic:
@@ -259,7 +259,7 @@ module.exports = {
       {
         id: "resto-18",
         name: "Warung Pasta, Bandung",
-        category: "Italian",
+        category: "Pasta",
         photoPlaces:
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/warung-pasta1.png",
         profilePic:

@@ -28,7 +28,7 @@ const HistoryService = () => {
   const getHistory = async () => {
     const history = await History.findAll();
     if (history.length === 0) {
-      return 0;
+      return [];
     }
     return history;
   };
@@ -36,7 +36,7 @@ const HistoryService = () => {
   const getHistoryById = async (id) => {
     const history = await History.findOne({ where: { id } });
     if (!history) {
-      return 0;
+      return [];
     }
     return history;
   };

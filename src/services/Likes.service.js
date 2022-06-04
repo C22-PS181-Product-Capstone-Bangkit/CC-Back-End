@@ -33,7 +33,7 @@ const LikesService = () => {
   const getLikes = async () => {
     const likes = await Likes.findAll();
     if (likes.length === 0) {
-      return 0;
+      return [];
     }
     return likes;
   };

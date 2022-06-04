@@ -6,12 +6,12 @@ const ReviewService = () => {
   const createReview = async (
     idAccount,
     idRestaurant,
-    subject,
+    // subject,
     description,
     rating
   ) => {
     const review = await getReview();
-    if (!subject || !rating) {
+    if (!rating) {
       return 0;
     }
     if (review) {
@@ -24,7 +24,7 @@ const ReviewService = () => {
       id: `review-${nanoid(10)}`,
       idRestaurant: idRestaurant,
       idAccount: idAccount,
-      subject: subject,
+      // subject: subject,
       description: description,
       rating: rating,
     });
@@ -34,12 +34,12 @@ const ReviewService = () => {
   const updateReviewById = async (
     id,
     idAccount,
-    subject,
+    // subject,
     description,
     rating
   ) => {
     const result = await Review.update(
-      { subject, description, rating },
+      { description, rating },
       { where: { id, idAccount } }
     );
     return result[0];

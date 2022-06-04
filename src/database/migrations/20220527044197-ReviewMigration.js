@@ -30,9 +30,6 @@ module.exports = {
           key: "id",
         },
       },
-      subject: {
-        type: Sequelize.TEXT,
-      },
       description: {
         type: Sequelize.TEXT,
       },

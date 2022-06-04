@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      subject: DataTypes.TEXT,
       description: DataTypes.TEXT,
       // photo: DataTypes.STRING,
       rating: {

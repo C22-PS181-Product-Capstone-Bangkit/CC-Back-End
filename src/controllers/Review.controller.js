@@ -23,11 +23,11 @@ module.exports = {
     try {
       const { user } = req;
       const { id } = req.params;
-      const { subject, description, rating } = req.body;
+      const { description, rating } = req.body;
       const result = await ReviewService().updateReviewById(
         id,
         user.id,
-        subject,
+        // subject,
         description,
         rating
       );
@@ -64,11 +64,11 @@ module.exports = {
   postReview: async (req, res) => {
     try {
       const { user } = req;
-      const { subject, idRestaurant, description, rating } = req.body;
+      const { idRestaurant, description, rating } = req.body;
       const result = await ReviewService().createReview(
         user.id,
         idRestaurant,
-        subject,
+        // subject,
         description,
         rating
       );
