@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      subject: DataTypes.STRING,
-      description: DataTypes.STRING,
+      subject: DataTypes.TEXT,
+      description: DataTypes.TEXT,
       // photo: DataTypes.STRING,
       rating: {
         type: DataTypes.FLOAT,

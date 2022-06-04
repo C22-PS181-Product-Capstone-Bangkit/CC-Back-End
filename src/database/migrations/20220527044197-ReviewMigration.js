@@ -31,10 +31,10 @@ module.exports = {
         },
       },
       subject: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       rating: {
         type: Sequelize.FLOAT,
