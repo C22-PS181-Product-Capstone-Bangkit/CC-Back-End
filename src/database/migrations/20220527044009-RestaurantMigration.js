@@ -31,9 +31,6 @@ module.exports = {
       location: {
         type: Sequelize.STRING,
       },
-      rating: {
-        type: Sequelize.FLOAT,
-      },
       openHour: {
         type: Sequelize.STRING,
       },
