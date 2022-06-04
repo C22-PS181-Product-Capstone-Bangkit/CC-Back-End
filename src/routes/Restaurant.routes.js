@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get("/", restaurantController.getRestaurant);
 router.get("/:id", restaurantController.getRestaurantDetail);
-router.get("/category/:category", restaurantController.getRestaurantCategory);
 router.delete("/:id", validateToken, restaurantController.deleteRestaurant);
 router.put("/:id", validateToken, restaurantController.editRestaurant);
 router.post("/", validateToken, restaurantController.postRestaurant);

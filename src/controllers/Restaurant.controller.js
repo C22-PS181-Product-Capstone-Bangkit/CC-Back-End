@@ -4,8 +4,11 @@ const ReviewService = require("../services/Review.service");
 module.exports = {
   getRestaurant: async (req, res) => {
     try {
-      let result = await RestaurantService().getRestaurant();
-      if(result.length > 0) {
+      const { category } = req.query;
+      let result = category
+        ? await RestaurantService().getRestaurantByCategory(category)
+        : await RestaurantService().getRestaurant();
+      if (result.length > 0) {
         for (let i = 0; i < result.length; i++) {
           let data = await ReviewService().getCountReviewByRestaurantId(
             result[i].id
@@ -13,7 +16,6 @@ module.exports = {
           result[i]["countReview"] = data;
         }
       }
-      if (!result) return res.status(500).send({ message: "Tidak ada data restoran" });
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);
@@ -23,33 +25,12 @@ module.exports = {
     try {
       const { id } = req.params;
       let result = await RestaurantService().getRestaurantById(id);
-      if (!result) return res.status(500).send({ message: "Tidak ada data restoran" });
-      let data = await ReviewService().getCountReviewByRestaurantId(
-        result.id
-      );
+      if (!result)
+        return res.status(500).send([]);
+      let data = await ReviewService().getCountReviewByRestaurantId(result.id);
       result["countReview"] = data;
-      data = await ReviewService().getReviewByRestaurantId(
-        result.id
-      );
+      data = await ReviewService().getReviewByRestaurantId(result.id);
       result["review"] = data;
-      return res.status(200).send(result);
-    } catch (error) {
-      return res.status(500).send(error);
-    }
-  },
-  getRestaurantCategory: async (req, res) => {
-    try {
-      const { category } = req.params;
-      let result = await RestaurantService().getRestaurantByCategory(category);
-      if (!result) return res.status(500).send({ message: "Tidak ada data restoran pada pencarian kategori" });
-      if(result.length > 0) {
-        for (let i = 0; i < result.length; i++) {
-          let data = await ReviewService().getCountReviewByRestaurantId(
-            result[i].id
-          );
-          result[i]["countReview"] = data;
-        }
-      }
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);

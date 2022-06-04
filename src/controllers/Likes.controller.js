@@ -14,8 +14,6 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await LikesService().getLikesById(id);
-      if (!result)
-        return res.status(500).send({ message: "Data Favorit tidak ditemukan" });
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);

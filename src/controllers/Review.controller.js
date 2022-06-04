@@ -5,7 +5,6 @@ module.exports = {
   getReviewAll: async (req, res) => {
     try {
       const result = await ReviewService().getReview();
-      if (!result) return res.status(500).send({ message: "Tidak ada data review" });
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);
@@ -15,8 +14,6 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await ReviewService().getReviewById(id);
-      if (!result)
-        return res.status(500).send({ message: "Data review tidak ditemukan" });
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);
@@ -39,8 +36,6 @@ module.exports = {
           message: "Review tidak ditemukan. Review gagal diperbarui",
         });
       if (result === 1) {
-        const resto = await ReviewService().getReviewById(id);
-        RestaurantService().updateRating(resto.dataValues.idRestaurant);
         return res.status(200).send({
           message: "Review berhasil diperbarui",
         });
@@ -58,8 +53,6 @@ module.exports = {
           message: "Review tidak ditemukan. Review gagal dihapus",
         });
       if (result === 1) {
-        const resto = await ReviewService().getReviewById(id);
-        RestaurantService().updateRating(resto.dataValues.idRestaurant);
         return res.status(200).send({
           message: "Review berhasil diperbarui",
         });
@@ -89,7 +82,6 @@ module.exports = {
           message: "Resto sudah direview",
         });
       }
-      RestaurantService().updateRating(idRestaurant);
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);
