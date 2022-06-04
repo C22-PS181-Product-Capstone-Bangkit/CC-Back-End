@@ -6,7 +6,9 @@ const RestaurantService = require("../services/Restaurant.service");
 // const { sendEmail } = require("../libraries/Email");
 const jwt = require("jsonwebtoken");
 const { Storage } = require("@google-cloud/storage");
-const storage = new Storage({ keyFilename: "src/config/capstoneproject-352302-85eede2f579b.json" });
+const storage = new Storage({
+  keyFilename: "src/config/capstoneproject-352302-85eede2f579b.json",
+});
 const bucket = storage.bucket("cemil-profile-user");
 
 const expired = "30d";
@@ -41,7 +43,7 @@ module.exports = {
 
         const token = jwt.sign(
           {
-            id: user.id
+            id: user.id,
           },
           process.env.JWT_SECRET,
           {
@@ -74,7 +76,7 @@ module.exports = {
       }
       const token = jwt.sign(
         {
-          id: user.id
+          id: user.id,
         },
         process.env.JWT_SECRET,
         {
@@ -102,12 +104,21 @@ module.exports = {
           let data = await RestaurantService().getRestaurantById(
             history[i].idRestaurant
           );
+          let count = await ReviewService().getCountReviewByRestaurantId(
+            history[i].idRestaurant
+          );
+          let rating = await RestaurantService().getRating(
+            history[i].idRestaurant
+          );
           restaurant.push(data);
+          restaurant[i]["countReview"] = count;
+          restaurant[i]["rating"] = rating;
         }
         history = history.map((data, index) => {
           return {
             name: restaurant[index].name,
             rating: restaurant[index].rating,
+            countReview: restaurant[index].countReview,
             profilePic: restaurant[index].profilePic,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt,
@@ -123,12 +134,24 @@ module.exports = {
           let data = await RestaurantService().getRestaurantById(
             review[i].idRestaurant
           );
+          let count = await ReviewService().getCountReviewByRestaurantId(
+            review[i].idRestaurant
+          );
+          let rating = await RestaurantService().getRating(
+            review[i].idRestaurant
+          );
           restaurant.push(data);
+          restaurant[i]["countReview"] = count;
+          restaurant[i]["rating"] = rating;
         }
         review = review.map((data, index) => {
           return {
-            name: restaurant[index].name,
-            subject: data.subject,
+            restaurant: {
+              name: restaurant[index].name,
+              rating: restaurant[index].rating,
+              countReview: restaurant[index].countReview,
+              profilePic: restaurant[index].profilePic,
+            },
             description: data.description,
             rating: data.rating,
             createdAt: data.createdAt,
@@ -184,10 +207,10 @@ module.exports = {
   uploadPic: async (req, res) => {
     const { user } = req;
     // const { file } = req.formData;
-    console.log(file)
+    console.log(file);
     const [files] = await bucket.getFiles();
     let fileInfos = [];
-    console.log(files)
+    console.log(files);
     // files.forEach((file) => {
     //   fileInfos.push({
     //     url: file.metadata.mediaLink,

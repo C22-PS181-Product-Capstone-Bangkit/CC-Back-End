@@ -22,7 +22,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/atmosphere2.png",
         location: "Jl. Lengkong Besar No. 97, Lengkong, Bandung",
         openHour: "Mon-Fri, Sun (11:00 - 24:00 WIB)",
-        price: "Rp 250.000 / 2 person",
+        price: 250000,
+        person: 2,
         contact: "62224262815",
       },
       {
@@ -35,7 +36,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/braga2.png",
         location: "Jl. Braga No. 58, Braga, Bandung",
         openHour: "Mon-Sun (09:00 - 24:00 WIB)",
-        price: "Rp 150.000 / 2 person",
+        price: 150000,
+        person: 2,
         contact: "62224233778",
       },
       {
@@ -49,7 +51,8 @@ module.exports = {
         location:
           "Paris Van Java, Resort Level, Jl. Sukajadi No. 131-139, Sukajadi, Bandung",
         openHour: "Mon-Sun (09:00 – 01:00 WIB)",
-        price: "Rp 160.000 / 2 person",
+        price: 160000,
+        person: 2,
         contact: "62222512350",
       },
       {
@@ -63,7 +66,8 @@ module.exports = {
         location:
           "Dusun Bambu, Jl. Kolonel Masturi KM 11, Sersan Bajuri, Bandung",
         openHour: "Mon-Sun (00:00 – 20:00 WIB)",
-        price: "Rp 300.000 / 2 person",
+        price: 300000,
+        person: 2,
         contact: "622282782020",
       },
       {
@@ -77,7 +81,8 @@ module.exports = {
         location:
           "Istana Plaza, Lantai Ground, Jl. Pasirkaliki No. 121-123, Cicendo, Bandung",
         openHour: "Mon-Sun (10:00 – 14:00 WIB, 18:00 – 22:00 WIB)",
-        price: "Rp 200.000 / 2 person",
+        price: 200000,
+        person: 2,
         contact: "62226046778",
       },
       {
@@ -90,7 +95,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/hummingbird2.png",
         location: "Jl. Progo No. 14, Riau, Bandung",
         openHour: "Mon-Sun (07:00 – 23:00 WIB)",
-        price: "Rp 200.000 / 2 person",
+        price: 200000,
+        person: 2,
         contact: "62224212582",
       },
       {
@@ -103,7 +109,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/kampung-daun2.png",
         location: "Jl. Sersan Bajuri No. 88, Sersan Bajuri, Bandung",
         openHour: "Mon-Sun (10:00 – 22:00 WIB)",
-        price: "Rp 250.000 / 2 person",
+        price: 250000,
+        person: 2,
         contact: "62222787915",
       },
       {
@@ -116,7 +123,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/karnivor2.png",
         location: "Jl. L.L.R.E. Martadinata No. 127, Riau, Bandung",
         openHour: "Mon-Sun (11:00 – 21:00 WIB)",
-        price: "Rp 250.000 / 2 person",
+        price: 250000,
+        person: 2,
         contact: "62227103111",
       },
       {
@@ -129,7 +137,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/maja-house2.png",
         location: "Jl. Sersan Bajuri No. 72, Sersan Bajuri, Bandung",
         openHour: "Mon-Sun (01:00 – 23:00 WIB, 00:00 – 02:00 WIB)",
-        price: "Rp 200.000 / 2 person",
+        price: 200000,
+        person: 2,
         contact: "62222788196",
       },
       {
@@ -142,7 +151,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/miss-bee2.png",
         location: "Jl. Rancabentang No. 11A, Ciumbuleuit, Bandung",
         openHour: "Mon-Sun (07:00 – 23:00 WIB)",
-        price: "Rp 150.000 / 2 person",
+        price: 150000,
+        person: 2,
         contact: "62222033613",
       },
       {
@@ -155,7 +165,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/raja-rasa2.png",
         location: "Jl. Tubagus Ismail Raya No. 15, Dago, Bandung",
         openHour: "Mon-Sun (13:00 – 23:00 WIB)",
-        price: "Rp 100.000 / 2 person",
+        price: 100000,
+        person: 2,
         contact: "6281289176666",
       },
       {
@@ -169,7 +180,8 @@ module.exports = {
         location:
           "Trans Studio Mall, Lantai Ground, Jl. Jendral Gatot Subroto No. 289, Buahbatu, Bandung",
         openHour: "Mon-Sun (10:00 – 22:00 WIB)",
-        price: "Rp 250.000 / 2 person",
+        price: 250000,
+        person: 2,
         contact: "622291092229",
       },
       {
@@ -183,7 +195,8 @@ module.exports = {
         location:
           "The Peak Resort, Jl. Desa Karyawangi Ciwaruga No.338, Sersan Bajuri, Bandung",
         openHour: "Mon-Sun (09:00 – 24:00 WIB)",
-        price: "Rp 600.000 / 2 person",
+        price: 600000,
+        person: 2,
         contact: "62222700759",
       },
       {
@@ -196,7 +209,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/stone-cafe2.png",
         location: "Jl. Rancakendal Luhur No. 5, Dago Pakar, Bandung",
         openHour: "Mon-Sun (11:00 – 23:00 WIB)",
-        price: "Rp 300.000 / 2 person",
+        price: 300000,
+        person: 2,
         contact: "62222500577",
       },
       {
@@ -210,7 +224,8 @@ module.exports = {
         location:
           "The Valley, Jl. Lembah Pakar Timur No. 28, Dago Pakar, Bandung",
         openHour: "Mon-Sun (11:00 – 23:00 WIB)",
-        price: "Rp 300.000 / 2 person",
+        price: 300000,
+        person: 2,
         contact: "62222511450",
       },
       {
@@ -223,7 +238,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/tizi2.png",
         location: "Jl. Kidang Pananjung No. 3, Dago, Bandung",
         openHour: "Mon-Sun (10:00 – 24:00 WIB)",
-        price: "Rp 200.000 / 2 person",
+        price: 200000,
+        person: 2,
         contact: "62222504963",
       },
       {
@@ -236,7 +252,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/two-hands2.png",
         location: "Ir. H. Juanda No. 113, Dago, Bandung",
         openHour: "Mon-Sun (08:00 – 22:00 WIB)",
-        price: "Rp 100.000 / 2 person",
+        price: 100000,
+        person: 2,
         contact: null,
       },
       {
@@ -249,7 +266,8 @@ module.exports = {
           "https://storage.googleapis.com/cemil-c22-ps181/restaurant/warung-pasta2.png",
         location: "Jl. Ganesa No. 4, Dago, Bandung",
         openHour: "Mon-Sun (07:00 – 23:00 WIB)",
-        price: "Rp 100.000 / 2 person",
+        price: 100000,
+        person: 2,
         contact: "62222500416",
       },
     ]);
