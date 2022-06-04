@@ -230,7 +230,7 @@ module.exports = {
           message: "Data User berhasil diperbarui",
         });
       if (result === 2)
-        return res.status(200).send({
+        return res.status(400).send({
           message: "Email User sudah digunakan",
         });
     } catch (error) {
