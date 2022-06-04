@@ -5,6 +5,9 @@ const HistoryService = require("../services/History.service");
 const RestaurantService = require("../services/Restaurant.service");
 // const { sendEmail } = require("../libraries/Email");
 const jwt = require("jsonwebtoken");
+const { Storage } = require("@google-cloud/storage");
+const storage = new Storage({ keyFilename: "src/config/capstoneproject-352302-85eede2f579b.json" });
+const bucket = storage.bucket("cemil-profile-user");
 
 const expired = "30d";
 
@@ -187,8 +190,18 @@ module.exports = {
     }
   },
 
-  uploadPic: (req, res) => {
+  uploadPic: async (req, res) => {
     const { user } = req;
+    // const { file } = req.formData;
+    console.log(file)
+    const [files] = await bucket.getFiles();
+    let fileInfos = [];
+    console.log(files)
+    // files.forEach((file) => {
+    //   fileInfos.push({
+    //     url: file.metadata.mediaLink,
+    //   });
+    // });
     return res.status(200).json(user);
   },
 

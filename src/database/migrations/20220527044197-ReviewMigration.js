@@ -31,7 +31,6 @@ module.exports = {
         },
       },
       subject: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       description: {

@@ -4,6 +4,7 @@ const cors = require("cors");
 const passport = require('passport');
 const { PORT = 3000 } = process.env;
 const routerApi = require("./routes/index");
+const multer = require('multer');
 
 const app = express();
 app.use(cors());
@@ -13,6 +14,13 @@ app.use("/api/v1", routerApi);
 
 app.use(passport.initialize());
 
+const multerInit = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 4 * 1024 * 1024, //limit 4 mb
+  },
+})
+app.use(multerInit.single('file'));
 
 // 404
 app.use(function (req, res, next) {

@@ -9,5 +9,6 @@ router.post("/login", userController.login);
 router.post("/register", userController.register);
 router.put("/reset-password", validateToken, userController.resetPassword);
 router.put("/edit-profile", validateToken, userController.editProfile);
+router.post("/upload-profile", validateToken, userController.uploadPic);
 
 module.exports = router;
