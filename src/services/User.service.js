@@ -13,7 +13,7 @@ const UserService = () => {
   };
 
   const getUserById = async (id) => {
-    const user = await User.findOne({ where: { id } });
+    const user = await User.findOne({ where: { id }, raw : true });
     return user;
   }
 
