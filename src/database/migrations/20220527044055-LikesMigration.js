@@ -30,10 +30,6 @@ module.exports = {
           key: "id",
         },
       },
-      status: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-      },
     });
   },
 

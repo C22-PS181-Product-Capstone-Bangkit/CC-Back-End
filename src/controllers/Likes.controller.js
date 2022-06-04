@@ -4,7 +4,7 @@ module.exports = {
   getLikes: async (req, res) => {
     try {
       const result = await LikesService().getLikes();
-      if (!result) return res.status(500).send({ message: "Tidak ada data favorit" });
+      if (!result) return res.status(500).send([]);
       return res.status(200).send(result);
     } catch (error) {
       return res.status(500).send(error);
@@ -23,8 +23,8 @@ module.exports = {
     try {
       const { user } = req;
       const { id } = req.params;
-      const { status } = req.body;
-      const result = await LikesService().updateLikesById(id, user.id, status);
+      const { idRestaurant } = req.body;
+      const result = await LikesService().updateLikesById(id, user.id, idRestaurant);
       if (result === 0)
         return res.status(400).send({
           message: "Favorit tidak ditemukan. Likes gagal diperbarui",
@@ -40,11 +40,12 @@ module.exports = {
   },
   deleteLikes: async (req, res) => {
     try {
+      const { user } = req;
       const { id } = req.params;
-      const result = await LikesService().deleteLikesById(id);
+      const result = await LikesService().deleteLikesById(id, user.id);
       if (result === 0)
         return res.status(400).send({
-          message: "Favorit tidak ditemukan. Favorit gagal dihapus",
+          message: "Favorit tidak ditemukan/User tidak dikenali. Favorit gagal dihapus",
         });
       if (result === 1) {
         return res.status(200).send({
@@ -58,17 +59,11 @@ module.exports = {
   postLikes: async (req, res) => {
     try {
       const { user } = req;
-      const { idRestaurant, status } = req.body;
+      const { idRestaurant } = req.body;
       const result = await LikesService().createLikes(
         user.id,
-        idRestaurant,
-        status
+        idRestaurant
       );
-      if (result === 0) {
-        return res.status(400).send({
-          message: "Harap isi status",
-        });
-      }
       if (result === 1) {
         return res.status(400).send({
           message: "Favorit telah tersimpan",

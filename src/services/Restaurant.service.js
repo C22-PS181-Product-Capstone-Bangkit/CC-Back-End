@@ -8,14 +8,14 @@ const RestaurantService = () => {
   const getRestaurant = async () => {
     const restaurant = await Restaurant.findAll({ raw: true });
     if (!restaurant) {
-      return 0;
+      return [];
     }
     return restaurant;
   };
   const getRestaurantById = async (id) => {
     const restaurant = await Restaurant.findOne({ where: { id }, raw: true });
     if (!restaurant) {
-      return 0;
+      return [];
     }
     return restaurant;
   };
@@ -30,7 +30,7 @@ const RestaurantService = () => {
       raw: true,
     });
     if (restaurant.length === 0) {
-      return 0;
+      return [];
     }
     return restaurant;
   };

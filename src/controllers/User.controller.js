@@ -116,16 +116,49 @@ module.exports = {
         }
         history = history.map((data, index) => {
           return {
-            name: restaurant[index].name,
-            rating: restaurant[index].rating,
-            countReview: restaurant[index].countReview,
-            profilePic: restaurant[index].profilePic,
+            restaurant: {
+              id: restaurant[index].id,
+              name: restaurant[index].name,
+              rating: restaurant[index].rating,
+              countReview: restaurant[index].countReview,
+              profilePic: restaurant[index].profilePic,
+            },
             createdAt: data.createdAt,
             updatedAt: data.updatedAt,
           };
         });
       }
-      const likes = await LikesService().getLikesByUserId(user.id);
+      let likes = [];
+      likes = await LikesService().getLikesByUserId(user.id);
+      if (likes.length > 0) {
+        let restaurant = [];
+        for (let i = 0; i < likes.length; i++) {
+          let data = await RestaurantService().getRestaurantById(
+            likes[i].idRestaurant
+          );
+          let count = await ReviewService().getCountReviewByRestaurantId(
+            likes[i].idRestaurant
+          );
+          let rating = await RestaurantService().getRating(
+            likes[i].idRestaurant
+          );
+          restaurant.push(data);
+          restaurant[i]["countReview"] = count;
+          restaurant[i]["rating"] = rating;
+        }
+        likes = likes.map((data, index) => {
+          return {
+            id: data.id,
+            restaurant: {
+              id: restaurant[index].id,
+              name: restaurant[index].name,
+              rating: restaurant[index].rating,
+              countReview: restaurant[index].countReview,
+              profilePic: restaurant[index].profilePic,
+            },
+          };
+        });
+      }
       let review = [];
       review = await ReviewService().getReviewByUserId(user.id);
       if (review.length > 0) {
@@ -147,6 +180,7 @@ module.exports = {
         review = review.map((data, index) => {
           return {
             restaurant: {
+              id: restaurant[index].id,
               name: restaurant[index].name,
               rating: restaurant[index].rating,
               countReview: restaurant[index].countReview,

@@ -5,9 +5,6 @@ const Likes = db.Likes;
 const LikesService = () => {
   const createLikes = async (idAccount, idRestaurant, status) => {
     const likes = await getLikes();
-    if (!status) {
-      return 0;
-    }
     if (likes) {
       const isLikes = await Likes.findOne({
         where: { idAccount, idRestaurant },
@@ -23,13 +20,13 @@ const LikesService = () => {
     return result;
   };
 
-  const updateLikesById = async (id, idAccount, status) => {
-    const result = await Likes.update({ status }, { where: { id, idAccount } });
+  const updateLikesById = async (id, idAccount, idRestaurant) => {
+    const result = await Likes.update({ idRestaurant }, { where: { id, idAccount } });
     return result[0];
   };
 
-  const deleteLikesById = async (id) => {
-    const result = await Likes.destroy({ where: { id } });
+  const deleteLikesById = async (id, idAccount) => {
+    const result = await Likes.destroy({ where: { id, idAccount } });
     return result;
   };
 
@@ -44,7 +41,7 @@ const LikesService = () => {
   const getLikesById = async (id) => {
     const likes = await Likes.findOne({ where: { id } });
     if (!likes) {
-      return 0;
+      return [];
     }
     return likes;
   };

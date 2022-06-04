@@ -53,7 +53,7 @@ const ReviewService = () => {
   const getReview = async () => {
     const review = await Review.findAll();
     if (!review) {
-      return 0;
+      return [];
     }
     return review;
   };
@@ -61,7 +61,7 @@ const ReviewService = () => {
   const getReviewById = async (id) => {
     const review = await Review.findOne({ where: { id } });
     if (!review) {
-      return 0;
+      return [];
     }
     return review;
   };
@@ -69,7 +69,7 @@ const ReviewService = () => {
   const getCountReviewByRestaurantId = async (idRestaurant) => {
     const review = await Review.count({ where: { idRestaurant } });
     if(!review) {
-      return 0;
+      return [];
     }
     return review;
   };
