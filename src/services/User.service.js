@@ -37,9 +37,13 @@ const UserService = () => {
     return result;
   };
 
-  const updateUserById = async (id, name, phone) => {
+  const updateUserById = async (id, name, phone, email) => {
+    const user = await User.findOne({ where: { id }, raw : true });
+    if(user) {
+      return 2;
+    }
     const result = await User.update(
-      { name, phone },
+      { name, phone, email },
       { where: { id } }
     );
     return result[0];
@@ -56,19 +60,21 @@ const UserService = () => {
     return 0;
   };
 
-  const resetPassword = async (id, password) => {
+  const resetPassword = async (id, oldPassword, password) => {
     const user = await User.findByPk(id);
     if (user) {
-      if (bcrypt.compareSync(password, user.getDataValue("password"))) {
+      if (bcrypt.compareSync(oldPassword, user.getDataValue("password"))) {
+        user.update(
+          { password: bcrypt.hashSync(password, 8) },
+          {
+            where: { id: id },
+          }
+        );
         return 2;
+      } else {
+        return 1;
       }
-      user.update(
-        { password: bcrypt.hashSync(password, 8) },
-        {
-          where: { id: id },
-        }
-      );
-      return 1;
+      
     }
     return 0;
   };

@@ -214,8 +214,13 @@ module.exports = {
   editProfile: async (req, res) => {
     try {
       const { user } = req;
-      const { name, phone } = req.body;
-      const result = await UserService().updateUserById(user.id, name, phone);
+      const { name, phone, email } = req.body;
+      const result = await UserService().updateUserById(
+        user.id,
+        name,
+        phone,
+        email
+      );
       if (result === 0)
         return res.status(400).send({
           message: "Data User tidak ditemukan. Gagal diperbarui",
@@ -223,6 +228,10 @@ module.exports = {
       if (result === 1)
         return res.status(200).send({
           message: "Data User berhasil diperbarui",
+        });
+      if (result === 2)
+        return res.status(200).send({
+          message: "Email User sudah digunakan",
         });
     } catch (error) {
       return res.status(500).send(error);
@@ -256,15 +265,22 @@ module.exports = {
   resetPassword: async (req, res) => {
     try {
       const { user } = req;
-      const { password } = req.body;
-      const result = await UserService().resetPassword(user.id, password);
+      const { oldPassword, password } = req.body;
+      const result = await UserService().resetPassword(
+        user.id,
+        oldPassword,
+        password
+      );
       return result === 0
-        ? res.status(500).send({ message: "Terjadi kesalahan sistem" })
+        ? res.status(500).send({ message: "User tidak ditemukan" })
         : result === 1
-        ? res.status(200).send({ message: "Password Berhasil diganti" })
-        : res.status(400).send({
-            message:
-              "Password Masih Sama Seperti Sebelumnya. Tidak ada perubahan",
+        ? res
+            .status(401)
+            .send({
+              message: "Gagal mengganti password. Periksa password awal",
+            })
+        : res.status(200).send({
+            message: "Password Berhasil Diubah",
           });
     } catch (error) {
       return res.status(500).send(error);
