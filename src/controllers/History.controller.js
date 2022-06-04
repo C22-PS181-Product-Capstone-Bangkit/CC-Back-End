@@ -21,12 +21,11 @@ module.exports = {
   editHistory: async (req, res) => {
     try {
       const { user } = req;
-      const { id } = req.params;
-      const { title } = req.body;
+      const { idRestaurant } = req.params;
       const result = await HistoryService().updateHistoryById(
         id,
         user.id,
-        title
+        idRestaurant
       );
       if (result === 0)
         return res.status(400).send({
@@ -61,11 +60,10 @@ module.exports = {
   postHistory: async (req, res) => {
     try {
       const { user } = req;
-      const { idRestaurant, title } = req.body;
+      const { idRestaurant } = req.body;
       const result = await HistoryService().createHistory(
         user.id,
         idRestaurant,
-        title
       );
       return res.status(200).send(result);
     } catch (error) {

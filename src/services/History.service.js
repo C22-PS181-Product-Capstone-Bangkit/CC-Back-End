@@ -3,19 +3,18 @@ const db = require("../models");
 const History = db.History;
 
 const HistoryService = () => {
-  const createHistory = async (idAccount, idRestaurant, title) => {
+  const createHistory = async (idAccount, idRestaurant) => {
     const result = await History.create({
       id: `History-${nanoid(22)}`,
       idRestaurant: idRestaurant,
       idAccount: idAccount,
-      title: title,
     });
     return result;
   };
 
-  const updateHistoryById = async (id, idAccount, title) => {
+  const updateHistoryById = async (id, idAccount, idRestaurant) => {
     const result = await History.update(
-      { title },
+      { idRestaurant },
       { where: { id, idAccount } }
     );
     return result[0];

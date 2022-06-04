@@ -41,11 +41,7 @@ module.exports = {
 
         const token = jwt.sign(
           {
-            id: user.id,
-            idFriend: user.idFriend,
-            name: user.name,
-            email: user.email,
-            profilePic: user.profilePic,
+            id: user.id
           },
           process.env.JWT_SECRET,
           {
@@ -78,11 +74,7 @@ module.exports = {
       }
       const token = jwt.sign(
         {
-          id: user.id,
-          idFriend: user.idFriend,
-          name: user.name,
-          email: user.email,
-          profilePic: user.profilePic,
+          id: user.id
         },
         process.env.JWT_SECRET,
         {
@@ -116,8 +108,7 @@ module.exports = {
           return {
             name: restaurant[index].name,
             rating: restaurant[index].rating,
-            photoPlaces: restaurant[index].photoPlaces,
-            title: data.title,
+            profilePic: restaurant[index].profilePic,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt,
           };
