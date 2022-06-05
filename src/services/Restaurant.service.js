@@ -1,6 +1,7 @@
 const { nanoid } = require("nanoid");
 const db = require("../models");
 const { Op } = require("sequelize");
+const Fuse = require("fuse.js");
 const Restaurant = db.Restaurant;
 const Review = db.Review;
 
@@ -33,6 +34,25 @@ const RestaurantService = () => {
       return [];
     }
     return restaurant;
+  };
+
+  const getRestaurantByName = async (q) => {
+    const restaurant = await Restaurant.findAll({ raw: true });
+    if (restaurant.length === 0) {
+      return [];
+    }
+    const fuse = new Fuse(restaurant, {
+      includeScore: true,
+      keys: ["name"],
+    });
+    let result = []
+    result = fuse.search(q);
+    if(result.length > 0) {
+      result = result.map((arr, index) => (
+        arr.item
+      ))
+    }
+    return result;
   };
 
   const updateRestaurantById = async (
@@ -98,6 +118,7 @@ const RestaurantService = () => {
     getRestaurant,
     getRestaurantById,
     getRestaurantByCategory,
+    getRestaurantByName,
     getRating,
     updateRestaurantById,
     deleteRestaurantById,

@@ -5,9 +5,11 @@ const UserService = require("../services/User.service");
 module.exports = {
   getRestaurant: async (req, res) => {
     try {
-      const { category } = req.query;
+      const { category, q } = req.query;
       let result = category
         ? await RestaurantService().getRestaurantByCategory(category)
+        : q
+        ? await RestaurantService().getRestaurantByName(q)
         : await RestaurantService().getRestaurant();
       if (result.length > 0) {
         for (let i = 0; i < result.length; i++) {
