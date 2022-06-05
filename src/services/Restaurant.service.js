@@ -80,7 +80,11 @@ const RestaurantService = () => {
     for (let i = 0; i < result.length; i++) {
       rate += result[i].rating;
     }
-    return rate / result.length;
+
+    const round2Decimal = (dec) => {
+      return +(Math.round(dec + "e+2") + "e-2");
+    }
+    return round2Decimal(rate / result.length);
   };
 
   const deleteRestaurantById = async (id) => {
