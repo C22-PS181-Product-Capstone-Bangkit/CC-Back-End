@@ -1,3 +1,4 @@
+const { format } = require("util");
 const UserService = require("../services/User.service");
 const ReviewService = require("../services/Review.service");
 const LikesService = require("../services/Likes.service");
@@ -5,13 +6,14 @@ const HistoryService = require("../services/History.service");
 const RestaurantService = require("../services/Restaurant.service");
 // const { sendEmail } = require("../libraries/Email");
 const jwt = require("jsonwebtoken");
+
+const expired = "30d";
 const { Storage } = require("@google-cloud/storage");
 const storage = new Storage({
   keyFilename: "src/config/capstoneproject-352302-85eede2f579b.json",
+  projectId: "capstoneproject-352302",
 });
 const bucket = storage.bucket("cemil-profile-user");
-
-const expired = "30d";
 
 module.exports = {
   register: async (req, res) => {
@@ -152,7 +154,7 @@ module.exports = {
             restaurant: {
               id: restaurant[index].id,
               name: restaurant[index].name,
-              category : restaurant[index].category,
+              category: restaurant[index].category,
               rating: restaurant[index].rating,
               countReview: restaurant[index].countReview,
               profilePic: restaurant[index].profilePic,
@@ -249,18 +251,47 @@ module.exports = {
   },
 
   uploadPic: async (req, res) => {
-    const { user } = req;
-    // const { file } = req.formData;
-    console.log(file);
-    const [files] = await bucket.getFiles();
-    let fileInfos = [];
-    console.log(files);
-    // files.forEach((file) => {
-    //   fileInfos.push({
-    //     url: file.metadata.mediaLink,
-    //   });
-    // });
-    return res.status(200).json(user);
+    try {
+      const { user } = req;
+      const userData = await UserService().getUserById(user.id);
+      if (!userData) {
+        return res.status(400).send({ message: "Data User tidak ditemukan" });
+      }
+      const image = req.file;
+      if (!image) {
+        return res
+          .status(400)
+          .send({ message: "Tidak ada gambar yang di-upload" });
+      }
+      const blob = bucket.file(image.originalname);
+      const blobStream = blob.createWriteStream({
+        resumable: false,
+      });
+      blobStream
+        .on("finish", async () => {
+          const publicURL = format(
+            `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+          );
+          await UserService().updateProfilePic(user.id, publicURL);
+          const data = await UserService().getUserById(user.id);
+          return res.status(200).json({
+            user: {
+              id: data.id,
+              idFriend: data.idFriend,
+              name: data.name,
+              email: data.email,
+              profilePic: data.profilePic,
+              phone: data.phone,
+            },
+          });
+        })
+        .on("error", (error) => {
+          return resres.status(400).send({ message: error });
+        });
+      blobStream.end(req.file.buffer);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
   },
 
   resetPassword: async (req, res) => {
@@ -275,11 +306,9 @@ module.exports = {
       return result === 0
         ? res.status(500).send({ message: "User tidak ditemukan" })
         : result === 1
-        ? res
-            .status(401)
-            .send({
-              message: "Gagal mengganti password. Periksa password awal",
-            })
+        ? res.status(401).send({
+            message: "Gagal mengganti password. Periksa password awal",
+          })
         : res.status(200).send({
             message: "Password Berhasil Diubah",
           });

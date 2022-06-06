@@ -13,9 +13,9 @@ const UserService = () => {
   };
 
   const getUserById = async (id) => {
-    const user = await User.findOne({ where: { id }, raw : true });
+    const user = await User.findOne({ where: { id }, raw: true });
     return user;
-  }
+  };
 
   const register = async (email, name, password) => {
     if (!email || !name || !password) {
@@ -32,21 +32,22 @@ const UserService = () => {
       email: email,
       password: bcrypt.hashSync(password, 8),
       profilePic: null,
-      phone : null
+      phone: null,
     });
     return result;
   };
 
   const updateUserById = async (id, name, phone, email) => {
-    const user = await User.findOne({ where: { id }, raw : true });
-    if(user) {
+    const user = await User.findOne({ where: { id }, raw: true });
+    if (user) {
       return 2;
     }
-    const result = await User.update(
-      { name, phone, email },
-      { where: { id } }
-    );
+    const result = await User.update({ name, phone, email }, { where: { id } });
     return result[0];
+  };
+
+  const updateProfilePic = async (id, profilePic) => {
+    await User.update({ profilePic }, { where: { id } });
   };
 
   const deleteUserById = async (id) => {
@@ -74,7 +75,6 @@ const UserService = () => {
       } else {
         return 1;
       }
-      
     }
     return 0;
   };
@@ -84,6 +84,7 @@ const UserService = () => {
     deleteUserById,
     getUserById,
     updateUserById,
+    updateProfilePic,
     register,
     resetPassword,
   };
