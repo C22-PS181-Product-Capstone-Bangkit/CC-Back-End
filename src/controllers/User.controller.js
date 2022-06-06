@@ -152,6 +152,7 @@ module.exports = {
             restaurant: {
               id: restaurant[index].id,
               name: restaurant[index].name,
+              category : restaurant[index].category,
               rating: restaurant[index].rating,
               countReview: restaurant[index].countReview,
               profilePic: restaurant[index].profilePic,
