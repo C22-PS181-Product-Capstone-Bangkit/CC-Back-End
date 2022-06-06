@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 const expired = "30d";
 const { Storage } = require("@google-cloud/storage");
 const storage = new Storage({
-  keyFilename: "src/config/capstoneproject-352302-85eede2f579b.json",
+  keyFilename: "src/config/google-key.json",
   projectId: "capstoneproject-352302",
 });
 const bucket = storage.bucket("cemil-profile-user");
@@ -286,7 +286,7 @@ module.exports = {
           });
         })
         .on("error", (error) => {
-          return resres.status(400).send({ message: error });
+          return res.status(400).send({ message: error });
         });
       blobStream.end(req.file.buffer);
     } catch (error) {
