@@ -263,32 +263,34 @@ module.exports = {
           .status(400)
           .send({ message: "Tidak ada gambar yang di-upload" });
       }
-      const blob = bucket.file(image.originalname);
-      const blobStream = blob.createWriteStream({
-        resumable: false,
-      });
-      blobStream
-        .on("finish", async () => {
+      const uploading = (image) => {
+        const blob = bucket.file(image.originalname);
+        const blobStream = blob.createWriteStream({
+          resumable: false,
+        });
+        blobStream.on("finish", () => {
           const publicURL = format(
             `https://storage.googleapis.com/${bucket.name}/${blob.name}`
           );
-          await UserService().updateProfilePic(user.id, publicURL);
-          const data = await UserService().getUserById(user.id);
-          return res.status(200).json({
-            user: {
-              id: data.id,
-              idFriend: data.idFriend,
-              name: data.name,
-              email: data.email,
-              profilePic: data.profilePic,
-              phone: data.phone,
-            },
-          });
-        })
-        .on("error", (error) => {
+          return encodeURI(publicURL);
+        }).on("error", (error) => {
           return res.status(400).send({ message: error });
         });
-      blobStream.end(req.file.buffer);
+        blobStream.end(req.file.buffer);
+      }
+      const result = uploading(image);
+      await UserService().updateProfilePic(user.id, result);
+      const data = await UserService().getUserById(user.id);
+      return res.status(200).json({
+        user: {
+          id: data.id,
+          idFriend: data.idFriend,
+          name: data.name,
+          email: data.email,
+          profilePic: data.profilePic,
+          phone: data.phone,
+        },
+      });
     } catch (error) {
       return res.status(400).send(error);
     }
