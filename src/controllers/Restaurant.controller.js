@@ -200,14 +200,21 @@ module.exports = {
   getListRestaurant: async (req, res) => {
     try {
       const { idRestaurants } = req.body;
-      console.log(Array.isArray(idRestaurants))
       if (Array.isArray(idRestaurants)) {
-        let data = [];
+        let result = [];
         for(let i = 0; i < idRestaurants.length; i++) {
-          const result = await RestaurantService().getRestaurantById(idRestaurants[i]);
-          data.push(result)
+          const data = await RestaurantService().getRestaurantById(idRestaurants[i]);
+          result.push(data)
         }
-        console.log(data)
+        for (let i = 0; i < result.length; i++) {
+          let count = await ReviewService().getCountReviewByRestaurantId(
+            result[i].id
+          );
+          let rating = await RestaurantService().getRating(result[i].id);
+          result[i]["countReview"] = count;
+          result[i]["rating"] = rating;
+        }
+        return res.status(200).send(result);
       } else {
         return res.status(401).send([]);
       }
