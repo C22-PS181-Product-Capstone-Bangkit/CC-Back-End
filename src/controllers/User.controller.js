@@ -217,6 +217,10 @@ module.exports = {
   editProfile: async (req, res) => {
     try {
       const { user } = req;
+      const userData = await UserService().getUserById(user.id);
+      if (!userData) {
+        return res.status(400).send({ message: "Data User tidak ditemukan" });
+      }
       const { name, phone, email } = req.body;
       const result = await UserService().updateUserById(
         user.id,
@@ -224,18 +228,97 @@ module.exports = {
         phone,
         email
       );
-      if (result === 0)
-        return res.status(400).send({
-          message: "Data User tidak ditemukan. Gagal diperbarui",
-        });
       if (result === 1)
         return res.status(200).send({
-          message: "Data User berhasil diperbarui",
+          message:
+            "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
         });
       if (result === 2)
         return res.status(400).send({
-          message: "Email User sudah digunakan",
+          message:
+            "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
         });
+      if (result === 3)
+        return res.status(200).send({
+          message: "Data User berhasil diperbarui",
+        });
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  },
+
+  editFullProfile: async (req, res) => {
+    try {
+      const { user } = req;
+      const userData = await UserService().getUserById(user.id);
+      if (!userData) {
+        return res.status(400).send({ message: "Data User tidak ditemukan" });
+      }
+      const data = req.body;
+      const image = req.file ? req.file : userData.profilePic;
+      const name = data.name ? data.name : userData.name;
+      const email = data.email ? data.email : userData.email;
+      const phone = data.phone ? data.phone : userData.phone;
+
+      if (image.originalname) {
+        const blob = bucket.file(image.originalname);
+        const blobStream = blob.createWriteStream({
+          resumable: false,
+        });
+        blobStream
+          .on("finish", async () => {
+            const publicURL = format(
+              `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+            );
+            await UserService().updateProfilePic(user.id, encodeURI(publicURL));
+            const result = await UserService().updateUserById(
+              user.id,
+              name,
+              phone,
+              email
+            );
+            if (result === 1)
+              return res.status(200).send({
+                message:
+                  "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
+              });
+            if (result === 2)
+              return res.status(400).send({
+                message:
+                  "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
+              });
+            if (result === 3)
+              return res.status(200).send({
+                message: "Data User berhasil diperbarui",
+              });
+          })
+          .on("error", (error) => {
+            return res.status(400).send({ message: error });
+          });
+        blobStream.end(req.file.buffer);
+      } else {
+        await UserService().updateProfilePic(user.id, encodeURI(image));
+        const result = await UserService().updateUserById(
+          user.id,
+          name,
+          phone,
+          email
+        );
+        if (result === 1)
+          return res.status(200).send({
+            message:
+              "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
+          });
+        if (result === 2)
+          return res.status(400).send({
+            message:
+              "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
+          });
+        if (result === 3)
+          return res.status(200).send({
+            message: "Data User berhasil diperbarui",
+          });
+      }
     } catch (error) {
       return res.status(500).send(error);
     }
@@ -325,6 +408,10 @@ module.exports = {
   deleteUser: async (req, res) => {
     try {
       const { user } = req;
+      const userData = await UserService().getUserById(user.id);
+      if (!userData) {
+        return res.status(400).send({ message: "Data User tidak ditemukan" });
+      }
       await ReviewService().deleteReviewByUserId(user.id);
       await HistoryService().deleteHistoryByUserId(user.id);
       await LikesService().deleteLikesByUserId(user.id);

@@ -17,6 +17,7 @@ router.post("/login", userController.login);
 router.post("/register", userController.register);
 router.put("/reset-password", validateToken, userController.resetPassword);
 router.put("/edit-profile", validateToken, userController.editProfile);
+router.put("/full-edit", validateToken, multerInit.single("file"), userController.editFullProfile);
 router.post("/upload-pic", validateToken, multerInit.single("file"), userController.uploadPic);
 router.delete("/remove-account", validateToken, userController.deleteUser);
 

@@ -40,15 +40,15 @@ const UserService = () => {
   const updateUserById = async (id, name, phone, email) => {
     const checked1 = await User.findOne({ where: { email, id }, raw: true });
     if (checked1) {
-      const result = await User.update({ name, phone }, { where: { id } });
-      return result[0];
-    };
+      await User.update({ name, phone }, { where: { id } });
+      return 1;
+    }
     const checked2 = await User.findOne({ where: { email }, raw: true });
     if (checked2) {
       return 2;
-    };
-    const result = await User.update({ name, phone, email }, { where: { id } });
-    return result[0];
+    }
+    await User.update({ name, phone, email }, { where: { id } });
+    return 3;
   };
 
   const updateProfilePic = async (id, profilePic) => {
@@ -68,7 +68,7 @@ const UserService = () => {
 
   const resetPassword = async (id, oldPassword, password) => {
     const user = await User.findByPk(id);
-    if(password === oldPassword) {
+    if (password === oldPassword) {
       return 3;
     }
     if (user) {
