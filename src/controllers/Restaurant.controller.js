@@ -1,6 +1,24 @@
+const fetch = require("node-fetch");
 const RestaurantService = require("../services/Restaurant.service");
 const ReviewService = require("../services/Review.service");
 const UserService = require("../services/User.service");
+
+const postRating = async (rating) => {
+  const response = await fetch(
+    "https://machine-learning-cemil.herokuapp.com/predict",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        user_ratings: rating,
+      }),
+      headers: {
+        Accept: "application/json",
+      },
+    },
+  );
+  const data = response.json();
+  return data;
+};
 
 module.exports = {
   getRestaurant: async (req, res) => {
@@ -109,6 +127,64 @@ module.exports = {
       }
       if (result === 1) {
         return res.status(400).send("Restoran telah diisi nama yang sama");
+      }
+      return res.status(200).send(result);
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  },
+  getRecommendation: async (req, res) => {
+    try {
+      const { user } = req;
+      const userData = await UserService().getUserById(user.id);
+      if (!userData) {
+        return res.status(400).send({ message: "Data User tidak ditemukan" });
+      }
+      //Restaurant
+      const restaurant = await RestaurantService().getRestaurant();
+
+      //Review User sorted id Restaurant
+      let review = [];
+      review = await ReviewService().getReviewByUserId(user.id);
+      review.sort(
+        (a, b) =>
+          parseInt(a.idRestaurant.substring(6)) -
+          parseInt(b.idRestaurant.substring(6))
+      );
+
+      //Rating User
+      let rating = [];
+
+      let checked = -1;
+      for (let i = 0; i < restaurant.length; i++) {
+        const check = review.find(
+          (data) => data.idRestaurant === restaurant[i].id
+        );
+        if (check) {
+          checked++;
+          rating.push(review[checked].rating);
+        } else {
+          rating.push(0);
+        }
+      }
+
+      //Debug
+      console.log(rating)
+
+      const data = await postRating(rating);
+      let result = [];
+
+      for(let i = 0; i < restaurant.length; i++) {
+         result.push(restaurant.find((arr, index) => (parseInt(arr.id.substring(6) - 1) === data.sorted_list[i])));
+      }
+
+      for (let i = 0; i < result.length; i++) {
+        let count = await ReviewService().getCountReviewByRestaurantId(
+          result[i].id
+        );
+        let rating = await RestaurantService().getRating(result[i].id);
+        result[i]["countReview"] = count;
+        result[i]["rating"] = rating;
       }
       return res.status(200).send(result);
     } catch (error) {

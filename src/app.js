@@ -4,7 +4,6 @@ const cors = require("cors");
 const passport = require('passport');
 const { PORT = 3000 } = process.env;
 const routerApi = require("./routes/index");
-const multer = require('multer');
 
 const app = express();
 

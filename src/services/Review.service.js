@@ -83,7 +83,15 @@ const ReviewService = () => {
   };
 
   const getReviewByUserId = async (idAccount) => {
-    const review = await Review.findAll({ where: { idAccount } });
+    const review = await Review.findAll({ where: { idAccount }, raw : true });
+    if(!review) {
+      return [];
+    }
+    return review;
+  };
+
+  const getReviewByUserIdAndRestaurantId = async (idAccount, idRestaurant) => {
+    const review = await Review.findAll({ where: { idAccount, idRestaurant }, raw : true });
     if(!review) {
       return [];
     }
@@ -98,7 +106,8 @@ const ReviewService = () => {
     getReviewById,
     getCountReviewByRestaurantId,
     getReviewByRestaurantId,
-    getReviewByUserId
+    getReviewByUserId,
+    getReviewByUserIdAndRestaurantId
   };
 };
 

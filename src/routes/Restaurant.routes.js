@@ -4,6 +4,7 @@ const validateToken = require('../libraries/Auth')
 const router = express.Router();
 
 router.get("/", restaurantController.getRestaurant);
+router.get("/recommendation", validateToken ,restaurantController.getRecommendation);
 router.get("/:id", restaurantController.getRestaurantDetail);
 router.delete("/:id", validateToken, restaurantController.deleteRestaurant);
 router.put("/:id", validateToken, restaurantController.editRestaurant);
