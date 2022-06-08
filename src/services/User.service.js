@@ -68,6 +68,9 @@ const UserService = () => {
 
   const resetPassword = async (id, oldPassword, password) => {
     const user = await User.findByPk(id);
+    if(password === oldPassword) {
+      return 3;
+    }
     if (user) {
       if (bcrypt.compareSync(oldPassword, user.getDataValue("password"))) {
         user.update(

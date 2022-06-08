@@ -268,16 +268,18 @@ module.exports = {
         const blobStream = blob.createWriteStream({
           resumable: false,
         });
-        blobStream.on("finish", () => {
-          const publicURL = format(
-            `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-          );
-          return encodeURI(publicURL);
-        }).on("error", (error) => {
-          return res.status(400).send({ message: error });
-        });
+        blobStream
+          .on("finish", () => {
+            const publicURL = format(
+              `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+            );
+            return encodeURI(publicURL);
+          })
+          .on("error", (error) => {
+            return res.status(400).send({ message: error });
+          });
         blobStream.end(req.file.buffer);
-      }
+      };
       const result = uploading(image);
       await UserService().updateProfilePic(user.id, result);
       const data = await UserService().getUserById(user.id);
@@ -311,9 +313,35 @@ module.exports = {
         ? res.status(401).send({
             message: "Gagal mengganti password. Periksa password awal",
           })
+        : result === 3
+        ? res.status(401).send({
+            message:
+              "Gagal mengganti password. Password lama sama dengan password baru",
+          })
         : res.status(200).send({
             message: "Password Berhasil Diubah",
           });
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  },
+
+  deleteUser: async (req, res) => {
+    try {
+      const { user } = req;
+      await ReviewService().deleteReviewByUserId(user.id);
+      await HistoryService().deleteHistoryByUserId(user.id);
+      await LikesService().deleteLikesByUserId(user.id);
+      const result = await UserService().deleteUserById(user.id);
+      if (result === 1) {
+        return res.status(200).send({
+          message: "Akun berhasil dihapus",
+        });
+      } else {
+        res.status(501).send({
+          message: "Akun Gagal dihapus. Harap hubungi Admin",
+        });
+      }
     } catch (error) {
       return res.status(500).send(error);
     }

@@ -50,6 +50,11 @@ const ReviewService = () => {
     return result;
   };
 
+  const deleteReviewByUserId = async (idAccount) => {
+    const result = await Review.destroy({ where: { idAccount } });
+    return result;
+  };
+
   const getReview = async () => {
     const review = await Review.findAll();
     if (!review) {
@@ -102,6 +107,7 @@ const ReviewService = () => {
     createReview,
     updateReviewById,
     deleteReviewById,
+    deleteReviewByUserId,
     getReview,
     getReviewById,
     getCountReviewByRestaurantId,

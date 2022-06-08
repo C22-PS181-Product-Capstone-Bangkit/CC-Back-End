@@ -30,6 +30,11 @@ const LikesService = () => {
     return result;
   };
 
+  const deleteLikesByUserId = async (idAccount) => {
+    const result = await Likes.destroy({ where: { idAccount } });
+    return result;
+  };
+
   const getLikes = async () => {
     const likes = await Likes.findAll();
     if (likes.length === 0) {
@@ -58,6 +63,7 @@ const LikesService = () => {
     createLikes,
     updateLikesById,
     deleteLikesById,
+    deleteLikesByUserId,
     getLikes,
     getLikesById,
     getLikesByUserId,

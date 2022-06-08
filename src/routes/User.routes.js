@@ -18,5 +18,6 @@ router.post("/register", userController.register);
 router.put("/reset-password", validateToken, userController.resetPassword);
 router.put("/edit-profile", validateToken, userController.editProfile);
 router.post("/upload-pic", validateToken, multerInit.single("file"), userController.uploadPic);
+router.delete("/remove-account", validateToken, userController.deleteUser);
 
 module.exports = router;

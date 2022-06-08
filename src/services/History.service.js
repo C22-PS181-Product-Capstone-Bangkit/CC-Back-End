@@ -25,6 +25,11 @@ const HistoryService = () => {
     return result;
   };
 
+  const deleteHistoryByUserId = async (idAccount) => {
+    const result = await History.destroy({ where: { idAccount } });
+    return result;
+  };
+
   const getHistory = async () => {
     const history = await History.findAll();
     if (history.length === 0) {
@@ -53,6 +58,7 @@ const HistoryService = () => {
     createHistory,
     updateHistoryById,
     deleteHistoryById,
+    deleteHistoryByUserId,
     getHistory,
     getHistoryById,
     getHistoryByUserId,

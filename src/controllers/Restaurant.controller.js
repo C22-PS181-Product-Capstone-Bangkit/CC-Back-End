@@ -14,7 +14,7 @@ const postRating = async (rating) => {
       headers: {
         Accept: "application/json",
       },
-    },
+    }
   );
   const data = response.json();
   return data;
@@ -169,13 +169,18 @@ module.exports = {
       }
 
       //Debug
-      console.log(rating)
+      console.log(rating);
 
       const data = await postRating(rating);
       let result = [];
 
-      for(let i = 0; i < restaurant.length; i++) {
-         result.push(restaurant.find((arr, index) => (parseInt(arr.id.substring(6) - 1) === data.sorted_list[i])));
+      for (let i = 0; i < restaurant.length; i++) {
+        result.push(
+          restaurant.find(
+            (arr, index) =>
+              parseInt(arr.id.substring(6) - 1) === data.sorted_list[i]
+          )
+        );
       }
 
       for (let i = 0; i < result.length; i++) {
@@ -187,6 +192,25 @@ module.exports = {
         result[i]["rating"] = rating;
       }
       return res.status(200).send(result);
+    } catch (error) {
+      return res.status(500).send(error);
+    }
+  },
+
+  getListRestaurant: async (req, res) => {
+    try {
+      const { idRestaurants } = req.body;
+      console.log(Array.isArray(idRestaurants))
+      if (Array.isArray(idRestaurants)) {
+        let data = [];
+        for(let i = 0; i < idRestaurants.length; i++) {
+          const result = await RestaurantService().getRestaurantById(idRestaurants[i]);
+          data.push(result)
+        }
+        console.log(data)
+      } else {
+        return res.status(401).send([]);
+      }
     } catch (error) {
       return res.status(500).send(error);
     }
