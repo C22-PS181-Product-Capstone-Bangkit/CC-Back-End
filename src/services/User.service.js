@@ -38,7 +38,7 @@ const UserService = () => {
   };
 
   const updateUserById = async (id, name, phone, email) => {
-    const user = await User.findOne({ where: { id }, raw: true });
+    const user = await User.findOne({ where: { email }, raw: true });
     if (user) {
       return 2;
     }
