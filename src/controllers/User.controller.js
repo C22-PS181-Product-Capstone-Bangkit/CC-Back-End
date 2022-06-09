@@ -261,6 +261,9 @@ module.exports = {
       const phone = data.phone ? data.phone : userData.phone;
 
       if (image.originalname) {
+        if(userData.profilePic) {
+          await bucket.file(userData.profilePic.substring(50)).delete();
+        }
         const blob = bucket.file(image.originalname);
         const blobStream = blob.createWriteStream({
           resumable: false,
@@ -345,6 +348,9 @@ module.exports = {
         return res
           .status(400)
           .send({ message: "Tidak ada gambar yang di-upload" });
+      }
+      if(userData.profilePic) {
+        await bucket.file(userData.profilePic.substring(50)).delete();
       }
       const blob = bucket.file(image.originalname);
       const blobStream = blob.createWriteStream({
