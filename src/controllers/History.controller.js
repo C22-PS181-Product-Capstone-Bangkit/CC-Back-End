@@ -28,11 +28,13 @@ module.exports = {
         idRestaurant
       );
       if (result === 0)
-        return res.status(400).send({
+        return res.status(404).send({
+          error: true,
           message: "History tidak ditemukan. History gagal diperbarui",
         });
       if (result === 1) {
-        return res.status(200).send({
+        return res.status(201).send({
+          error: false,
           message: "History berhasil diperbarui",
         });
       }
@@ -45,11 +47,13 @@ module.exports = {
       const { id } = req.params;
       const result = await HistoryService().deleteHistoryById(id);
       if (result === 0)
-        return res.status(400).send({
+        return res.status(404).send({
+          error: true,
           message: "History tidak ditemukan. History gagal dihapus",
         });
       if (result === 1) {
         return res.status(200).send({
+          error: false,
           message: "History berhasil dihapus",
         });
       }
@@ -65,7 +69,7 @@ module.exports = {
         user.id,
         idRestaurant,
       );
-      return res.status(200).send(result);
+      return res.status(201).send(result);
     } catch (error) {
       return res.status(500).send(error);
     }

@@ -48,7 +48,7 @@ module.exports = {
     try {
       const { id } = req.params;
       let result = await RestaurantService().getRestaurantById(id);
-      if (!result) return res.status(500).send([]);
+      if (!result) return res.status(200).send([]);
       let count = await ReviewService().getCountReviewByRestaurantId(result.id);
       let rating = await RestaurantService().getRating(result.id);
       result["countReview"] = count;
@@ -89,11 +89,13 @@ module.exports = {
         contact
       );
       if (result === 0)
-        return res.status(400).send({
+        return res.status(404).send({
+          error: true,
           message: "Restoran tidak ditemukan. Restoran gagal diperbarui",
         });
       if (result === 1)
-        return res.status(200).send({
+        return res.status(201).send({
+          error: false,
           message: "Restoran berhasil diperbarui",
         });
     } catch (error) {
@@ -106,10 +108,12 @@ module.exports = {
       const result = await RestaurantService().deleteRestaurantById(id);
       if (result === 0)
         return res.status(400).send({
+          error: true,
           message: "Restoran tidak ditemukan. Restoran gagal dihapus",
         });
       if (result === 1)
         return res.status(200).send({
+          error: false,
           message: "Restoran berhasil dihapus",
         });
     } catch (error) {
@@ -122,11 +126,15 @@ module.exports = {
       const result = await RestaurantService().createRestaurant(name, category);
       if (result === 0) {
         return res.status(400).send({
+          error: true,
           message: "Harap isi nama dan kategori",
         });
       }
       if (result === 1) {
-        return res.status(400).send("Restoran telah diisi nama yang sama");
+        return res.status(400).send({
+          error: true,
+          message: "Restoran telah diisi nama yang sama",
+        });
       }
       return res.status(200).send(result);
     } catch (error) {
@@ -138,7 +146,10 @@ module.exports = {
       const { user } = req;
       const userData = await UserService().getUserById(user.id);
       if (!userData) {
-        return res.status(400).send({ message: "Data User tidak ditemukan" });
+        return res.status(404).send({ 
+          error : true,
+          message: "Data User tidak ditemukan" 
+        });
       }
       //Restaurant
       const restaurant = await RestaurantService().getRestaurant();
@@ -202,9 +213,11 @@ module.exports = {
       const { idRestaurants } = req.body;
       if (Array.isArray(idRestaurants)) {
         let result = [];
-        for(let i = 0; i < idRestaurants.length; i++) {
-          const data = await RestaurantService().getRestaurantById(idRestaurants[i]);
-          result.push(data)
+        for (let i = 0; i < idRestaurants.length; i++) {
+          const data = await RestaurantService().getRestaurantById(
+            idRestaurants[i]
+          );
+          result.push(data);
         }
         for (let i = 0; i < result.length; i++) {
           let count = await ReviewService().getCountReviewByRestaurantId(
@@ -216,7 +229,7 @@ module.exports = {
         }
         return res.status(200).send(result);
       } else {
-        return res.status(401).send([]);
+        return res.status(200).send([]);
       }
     } catch (error) {
       return res.status(500).send(error);

@@ -22,12 +22,14 @@ module.exports = {
       const user = await UserService().register(email, name, password);
       if (user === 0) {
         res.status(400).send({
+          error: true,
           message:
             "Data kurang lengkap. Cek kembali email, nama, password Anda",
         });
       }
       if (user === 1) {
         res.status(400).send({
+          error: true,
           message: "Email sudah registrasi. Silahkan login",
         });
       } else {
@@ -74,7 +76,10 @@ module.exports = {
       const { email, password } = req.body;
       const user = await UserService().authenticate(email, password);
       if (!user) {
-        return res.status(400).json({ message: "Email atau Kata sandi salah" });
+        return res.status(400).json({
+          error: true,
+          message: "Email atau Kata sandi salah",
+        });
       }
       const token = jwt.sign(
         {
@@ -96,7 +101,10 @@ module.exports = {
       const { user } = req;
       const userData = await UserService().getUserById(user.id);
       if (!userData) {
-        return res.status(400).send({ message: "Data User tidak ditemukan" });
+        return res.status(400).send({
+          error: true,
+          message: "Data User tidak ditemukan",
+        });
       }
       let history = [];
       history = await HistoryService().getHistoryByUserId(user.id);
@@ -219,7 +227,10 @@ module.exports = {
       const { user } = req;
       const userData = await UserService().getUserById(user.id);
       if (!userData) {
-        return res.status(400).send({ message: "Data User tidak ditemukan" });
+        return res.status(400).send({
+          error: true,
+          message: "Data User tidak ditemukan",
+        });
       }
       const { name, phone, email } = req.body;
       const result = await UserService().updateUserById(
@@ -229,17 +240,20 @@ module.exports = {
         email
       );
       if (result === 1)
-        return res.status(200).send({
+        return res.status(201).send({
+          error: false,
           message:
             "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
         });
       if (result === 2)
         return res.status(400).send({
+          error: true,
           message:
             "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
         });
       if (result === 3)
-        return res.status(200).send({
+        return res.status(201).send({
+          error: false,
           message: "Data User berhasil diperbarui",
         });
     } catch (error) {
@@ -252,7 +266,10 @@ module.exports = {
       const { user } = req;
       const userData = await UserService().getUserById(user.id);
       if (!userData) {
-        return res.status(400).send({ message: "Data User tidak ditemukan" });
+        return res.status(400).send({
+          error: true,
+          message: "Data User tidak ditemukan",
+        });
       }
       const data = req.body;
       const image = req.file ? req.file : userData.profilePic;
@@ -261,7 +278,7 @@ module.exports = {
       const phone = data.phone ? data.phone : userData.phone;
 
       if (image.originalname) {
-        if(userData.profilePic) {
+        if (userData.profilePic) {
           await bucket.file(userData.profilePic.substring(50)).delete();
         }
         const blob = bucket.file(image.originalname);
@@ -281,17 +298,20 @@ module.exports = {
               email
             );
             if (result === 1)
-              return res.status(200).send({
+              return res.status(201).send({
+                error: false,
                 message:
                   "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
               });
             if (result === 2)
               return res.status(400).send({
+                error: true,
                 message:
                   "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
               });
             if (result === 3)
-              return res.status(200).send({
+              return res.status(201).send({
+                error: false,
                 message: "Data User berhasil diperbarui",
               });
           })
@@ -308,17 +328,20 @@ module.exports = {
           email
         );
         if (result === 1)
-          return res.status(200).send({
+          return res.status(201).send({
+            error: true,
             message:
               "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
           });
         if (result === 2)
           return res.status(400).send({
+            error: false,
             message:
               "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
           });
         if (result === 3)
-          return res.status(200).send({
+          return res.status(201).send({
+            error: true,
             message: "Data User berhasil diperbarui",
           });
       }
@@ -341,15 +364,19 @@ module.exports = {
       const { user } = req;
       const userData = await UserService().getUserById(user.id);
       if (!userData) {
-        return res.status(400).send({ message: "Data User tidak ditemukan" });
+        return res.status(400).send({
+          error: true,
+          message: "Data User tidak ditemukan",
+        });
       }
       const image = req.file;
       if (!image) {
-        return res
-          .status(400)
-          .send({ message: "Tidak ada gambar yang di-upload" });
+        return res.status(400).send({
+          error: true,
+          message: "Tidak ada gambar yang di-upload",
+        });
       }
-      if(userData.profilePic) {
+      if (userData.profilePic) {
         await bucket.file(userData.profilePic.substring(50)).delete();
       }
       const blob = bucket.file(image.originalname);
@@ -375,11 +402,14 @@ module.exports = {
           });
         })
         .on("error", (error) => {
-          return res.status(400).send({ message: error });
+          return res.status(500).send({
+            error: true,
+            message: error,
+          });
         });
       blobStream.end(req.file.buffer);
     } catch (error) {
-      return res.status(400).send(error);
+      return res.status(500).send(error);
     }
   },
 
@@ -393,17 +423,23 @@ module.exports = {
         password
       );
       return result === 0
-        ? res.status(500).send({ message: "User tidak ditemukan" })
+        ? res.status(400).send({
+            error: true,
+            message: "User tidak ditemukan",
+          })
         : result === 1
-        ? res.status(401).send({
+        ? res.status(400).send({
+            error: true,
             message: "Gagal mengganti password. Periksa password awal",
           })
         : result === 3
-        ? res.status(401).send({
+        ? res.status(400).send({
+            error: true,
             message:
               "Gagal mengganti password. Password lama sama dengan password baru",
           })
-        : res.status(200).send({
+        : res.status(201).send({
+            error: false,
             message: "Password Berhasil Diubah",
           });
     } catch (error) {
@@ -416,7 +452,10 @@ module.exports = {
       const { user } = req;
       const userData = await UserService().getUserById(user.id);
       if (!userData) {
-        return res.status(400).send({ message: "Data User tidak ditemukan" });
+        return res.status(400).send({
+          error: true,
+          message: "Data User tidak ditemukan",
+        });
       }
       await ReviewService().deleteReviewByUserId(user.id);
       await HistoryService().deleteHistoryByUserId(user.id);
@@ -424,10 +463,12 @@ module.exports = {
       const result = await UserService().deleteUserById(user.id);
       if (result === 1) {
         return res.status(200).send({
+          error: true,
           message: "Akun berhasil dihapus",
         });
       } else {
-        res.status(501).send({
+        res.status(500).send({
+          error: true,
           message: "Akun Gagal dihapus. Harap hubungi Admin",
         });
       }

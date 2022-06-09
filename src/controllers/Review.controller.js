@@ -32,11 +32,13 @@ module.exports = {
         rating
       );
       if (result === 0)
-        return res.status(400).send({
+        return res.status(404).send({
+          error : true,
           message: "Review tidak ditemukan. Review gagal diperbarui",
         });
       if (result === 1) {
-        return res.status(200).send({
+        return res.status(201).send({
+          error : false,
           message: "Review berhasil diperbarui",
         });
       }
@@ -49,12 +51,14 @@ module.exports = {
       const { id } = req.params;
       const result = await ReviewService().deleteReviewById(id);
       if (result === 0)
-        return res.status(400).send({
+        return res.status(404).send({
+          error : true,
           message: "Review tidak ditemukan. Review gagal dihapus",
         });
       if (result === 1) {
         return res.status(200).send({
-          message: "Review berhasil diperbarui",
+          error : false,
+          message: "Review berhasil dihapus",
         });
       }
     } catch (error) {
@@ -74,11 +78,13 @@ module.exports = {
       );
       if (result === 0) {
         return res.status(400).send({
+          error : true,
           message: "Harap isi subject dan rating",
         });
       }
       if (result === 1) {
         return res.status(400).send({
+          error : true,
           message: "Resto sudah direview",
         });
       }

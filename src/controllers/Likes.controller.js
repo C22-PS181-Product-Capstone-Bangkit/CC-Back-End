@@ -26,11 +26,13 @@ module.exports = {
       const { idRestaurant } = req.body;
       const result = await LikesService().updateLikesById(id, user.id, idRestaurant);
       if (result === 0)
-        return res.status(400).send({
+        return res.status(404).send({
+          error : true,
           message: "Favorit tidak ditemukan. Likes gagal diperbarui",
         });
       if (result === 1) {
-        return res.status(200).send({
+        return res.status(201).send({
+          error : false,
           message: "Favorit berhasil diperbarui",
         });
       }
@@ -44,11 +46,13 @@ module.exports = {
       const { id } = req.params;
       const result = await LikesService().deleteLikesById(id, user.id);
       if (result === 0)
-        return res.status(400).send({
+        return res.status(404).send({
+          error : true,
           message: "Favorit tidak ditemukan/User tidak dikenali. Favorit gagal dihapus",
         });
       if (result === 1) {
         return res.status(200).send({
+          error : false,
           message: "Favorit berhasil dihapus",
         });
       }
@@ -65,11 +69,12 @@ module.exports = {
         idRestaurant
       );
       if (result === 1) {
-        return res.status(400).send({
+        return res.status(404).send({
+          error : true,
           message: "Favorit telah tersimpan",
         });
       }
-      return res.status(200).send(result);
+      return res.status(201).send(result);
     } catch (error) {
       return res.status(500).send(error);
     }
