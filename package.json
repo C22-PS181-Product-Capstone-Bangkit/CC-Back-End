@@ -1,7 +1,7 @@
 {
   "name": "cc-back-end",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
   "main": "app",
   "scripts": {
     "start": "node src/app",
@@ -18,7 +18,7 @@
     "url": "git+https://github.com/C22-PS181-Product-Capstone-Bangkit/CC-Back-End.git"
   },
   "author": "C22-PS181",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/C22-PS181-Product-Capstone-Bangkit/CC-Back-End/issues"
   },
