@@ -91,12 +91,12 @@ module.exports = {
       if (result === 0)
         return res.status(404).send({
           error: true,
-          message: "Restoran tidak ditemukan. Restoran gagal diperbarui",
+          message: "Restaurant Not Found",
         });
       if (result === 1)
         return res.status(201).send({
           error: false,
-          message: "Restoran berhasil diperbarui",
+          message: "Success Edit Restaurant",
         });
     } catch (error) {
       return res.status(500).send(error);
@@ -109,12 +109,12 @@ module.exports = {
       if (result === 0)
         return res.status(400).send({
           error: true,
-          message: "Restoran tidak ditemukan. Restoran gagal dihapus",
+          message: "Restaurant Not Found",
         });
       if (result === 1)
         return res.status(200).send({
           error: false,
-          message: "Restoran berhasil dihapus",
+          message: "Success Delete Restaurant",
         });
     } catch (error) {
       return res.status(500).send(error);
@@ -127,13 +127,13 @@ module.exports = {
       if (result === 0) {
         return res.status(400).send({
           error: true,
-          message: "Harap isi nama dan kategori",
+          message: "Fill name and category",
         });
       }
       if (result === 1) {
         return res.status(400).send({
           error: true,
-          message: "Restoran telah diisi nama yang sama",
+          message: "Name Restaurant is already used before",
         });
       }
       return res.status(200).send(result);
@@ -146,9 +146,9 @@ module.exports = {
       const { user } = req;
       const userData = await UserService().getUserById(user.id);
       if (!userData) {
-        return res.status(404).send({ 
-          error : true,
-          message: "Data User tidak ditemukan" 
+        return res.status(404).send({
+          error: true,
+          message: "User Not Found",
         });
       }
       //Restaurant

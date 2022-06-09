@@ -33,13 +33,13 @@ module.exports = {
       );
       if (result === 0)
         return res.status(404).send({
-          error : true,
-          message: "Review tidak ditemukan. Review gagal diperbarui",
+          error: true,
+          message: "Review Not Found",
         });
       if (result === 1) {
         return res.status(201).send({
-          error : false,
-          message: "Review berhasil diperbarui",
+          error: false,
+          message: "Success Edit Review",
         });
       }
     } catch (error) {
@@ -52,13 +52,13 @@ module.exports = {
       const result = await ReviewService().deleteReviewById(id);
       if (result === 0)
         return res.status(404).send({
-          error : true,
-          message: "Review tidak ditemukan. Review gagal dihapus",
+          error: true,
+          message: "Review Not Found",
         });
       if (result === 1) {
         return res.status(200).send({
-          error : false,
-          message: "Review berhasil dihapus",
+          error: false,
+          message: "Success Remove Review",
         });
       }
     } catch (error) {
@@ -78,14 +78,14 @@ module.exports = {
       );
       if (result === 0) {
         return res.status(400).send({
-          error : true,
-          message: "Harap isi subject dan rating",
+          error: true,
+          message: "Fill Rating",
         });
       }
       if (result === 1) {
         return res.status(400).send({
-          error : true,
-          message: "Resto sudah direview",
+          error: true,
+          message: "Restaurant is already reviewed",
         });
       }
       return res.status(200).send(result);

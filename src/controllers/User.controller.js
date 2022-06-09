@@ -24,13 +24,13 @@ module.exports = {
         res.status(400).send({
           error: true,
           message:
-            "Data kurang lengkap. Cek kembali email, nama, password Anda",
+            "Fill your name, email, and password",
         });
       }
       if (user === 1) {
         res.status(400).send({
           error: true,
-          message: "Email sudah registrasi. Silahkan login",
+          message: "Email is already registered. Please login",
         });
       } else {
         // try {
@@ -78,7 +78,7 @@ module.exports = {
       if (!user) {
         return res.status(400).json({
           error: true,
-          message: "Email atau Kata sandi salah",
+          message: "Wrong email/password",
         });
       }
       const token = jwt.sign(
@@ -103,7 +103,7 @@ module.exports = {
       if (!userData) {
         return res.status(400).send({
           error: true,
-          message: "Data User tidak ditemukan",
+          message: "User Not Found",
         });
       }
       let history = [];
@@ -229,7 +229,7 @@ module.exports = {
       if (!userData) {
         return res.status(400).send({
           error: true,
-          message: "Data User tidak ditemukan",
+          message: "User Not Found",
         });
       }
       const { name, phone, email } = req.body;
@@ -241,20 +241,20 @@ module.exports = {
       );
       if (result === 1)
         return res.status(201).send({
-          error: false,
+          error: true,
           message:
-            "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
+            "Email is already same before. Success update profile",
         });
       if (result === 2)
         return res.status(400).send({
           error: true,
           message:
-            "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
+            "Email is used by another user. Failed update profile",
         });
       if (result === 3)
         return res.status(201).send({
           error: false,
-          message: "Data User berhasil diperbarui",
+          message: "Success Edit Profile",
         });
     } catch (error) {
       return res.status(500).send(error);
@@ -268,7 +268,7 @@ module.exports = {
       if (!userData) {
         return res.status(400).send({
           error: true,
-          message: "Data User tidak ditemukan",
+          message: "User Not Found",
         });
       }
       const data = req.body;
@@ -299,20 +299,20 @@ module.exports = {
             );
             if (result === 1)
               return res.status(201).send({
-                error: false,
+                error: true,
                 message:
-                  "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
+                  "Email is already same before. Success update profile",
               });
             if (result === 2)
               return res.status(400).send({
                 error: true,
                 message:
-                  "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
+                  "Email is used by another user. Failed update profile",
               });
             if (result === 3)
               return res.status(201).send({
                 error: false,
-                message: "Data User berhasil diperbarui",
+                message: "Success Edit Profile",
               });
           })
           .on("error", (error) => {
@@ -329,20 +329,20 @@ module.exports = {
         );
         if (result === 1)
           return res.status(201).send({
-            error: true,
+            error: false,
             message:
-              "Email masih sama digunakan dengan sebelumnya. Data User berhasil diperbarui",
+              "Email is already same before. Success update profile",
           });
         if (result === 2)
           return res.status(400).send({
             error: false,
             message:
-              "Email digunakan oleh orang lain. Gagal melakukan pembaruan data",
+              "Email is used by another user. Failed update profile",
           });
         if (result === 3)
           return res.status(201).send({
             error: true,
-            message: "Data User berhasil diperbarui",
+            message: "Success Edit Profile",
           });
       }
     } catch (error) {
@@ -366,14 +366,14 @@ module.exports = {
       if (!userData) {
         return res.status(400).send({
           error: true,
-          message: "Data User tidak ditemukan",
+          message: "User Not Found",
         });
       }
       const image = req.file;
       if (!image) {
         return res.status(400).send({
           error: true,
-          message: "Tidak ada gambar yang di-upload",
+          message: "Insert your picture",
         });
       }
       if (userData.profilePic) {
@@ -425,22 +425,22 @@ module.exports = {
       return result === 0
         ? res.status(400).send({
             error: true,
-            message: "User tidak ditemukan",
+            message: "User Not Found",
           })
         : result === 1
         ? res.status(400).send({
             error: true,
-            message: "Gagal mengganti password. Periksa password awal",
+            message: "Fail Change Password. Check your current password",
           })
         : result === 3
         ? res.status(400).send({
             error: true,
             message:
-              "Gagal mengganti password. Password lama sama dengan password baru",
+              "Fail Change Password. Current password is already same with new password",
           })
         : res.status(201).send({
             error: false,
-            message: "Password Berhasil Diubah",
+            message: "Success Change Password",
           });
     } catch (error) {
       return res.status(500).send(error);
@@ -454,7 +454,7 @@ module.exports = {
       if (!userData) {
         return res.status(400).send({
           error: true,
-          message: "Data User tidak ditemukan",
+          message: "User Not Found",
         });
       }
       await ReviewService().deleteReviewByUserId(user.id);
@@ -463,13 +463,13 @@ module.exports = {
       const result = await UserService().deleteUserById(user.id);
       if (result === 1) {
         return res.status(200).send({
-          error: true,
-          message: "Akun berhasil dihapus",
+          error: false,
+          message: "Success Delete Account",
         });
       } else {
         res.status(500).send({
           error: true,
-          message: "Akun Gagal dihapus. Harap hubungi Admin",
+          message: "Account is not deleted. Please contact admin",
         });
       }
     } catch (error) {

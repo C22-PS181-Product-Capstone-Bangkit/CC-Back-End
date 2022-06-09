@@ -24,16 +24,20 @@ module.exports = {
       const { user } = req;
       const { id } = req.params;
       const { idRestaurant } = req.body;
-      const result = await LikesService().updateLikesById(id, user.id, idRestaurant);
+      const result = await LikesService().updateLikesById(
+        id,
+        user.id,
+        idRestaurant
+      );
       if (result === 0)
         return res.status(404).send({
-          error : true,
-          message: "Favorit tidak ditemukan. Likes gagal diperbarui",
+          error: true,
+          message: "Favorite Not Found",
         });
       if (result === 1) {
         return res.status(201).send({
-          error : false,
-          message: "Favorit berhasil diperbarui",
+          error: false,
+          message: "Success Edit Favorite",
         });
       }
     } catch (error) {
@@ -47,13 +51,14 @@ module.exports = {
       const result = await LikesService().deleteLikesById(id, user.id);
       if (result === 0)
         return res.status(404).send({
-          error : true,
-          message: "Favorit tidak ditemukan/User tidak dikenali. Favorit gagal dihapus",
+          error: true,
+          message:
+            "Favorite Not Found/Unauthorized user. Please check your account",
         });
       if (result === 1) {
         return res.status(200).send({
-          error : false,
-          message: "Favorit berhasil dihapus",
+          error: false,
+          message: "Success Delete Favorite",
         });
       }
     } catch (error) {
@@ -64,14 +69,11 @@ module.exports = {
     try {
       const { user } = req;
       const { idRestaurant } = req.body;
-      const result = await LikesService().createLikes(
-        user.id,
-        idRestaurant
-      );
+      const result = await LikesService().createLikes(user.id, idRestaurant);
       if (result === 1) {
         return res.status(404).send({
-          error : true,
-          message: "Favorit telah tersimpan",
+          error: true,
+          message: "Favorite is already saved",
         });
       }
       return res.status(201).send(result);

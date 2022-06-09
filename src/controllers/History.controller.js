@@ -30,12 +30,12 @@ module.exports = {
       if (result === 0)
         return res.status(404).send({
           error: true,
-          message: "History tidak ditemukan. History gagal diperbarui",
+          message: "History Not Found",
         });
       if (result === 1) {
         return res.status(201).send({
           error: false,
-          message: "History berhasil diperbarui",
+          message: "Success Edit History",
         });
       }
     } catch (error) {
@@ -49,12 +49,12 @@ module.exports = {
       if (result === 0)
         return res.status(404).send({
           error: true,
-          message: "History tidak ditemukan. History gagal dihapus",
+          message: "History Not Found",
         });
       if (result === 1) {
         return res.status(200).send({
           error: false,
-          message: "History berhasil dihapus",
+          message: "Success Delete History",
         });
       }
     } catch (error) {
@@ -67,7 +67,7 @@ module.exports = {
       const { idRestaurant } = req.body;
       const result = await HistoryService().createHistory(
         user.id,
-        idRestaurant,
+        idRestaurant
       );
       return res.status(201).send(result);
     } catch (error) {
